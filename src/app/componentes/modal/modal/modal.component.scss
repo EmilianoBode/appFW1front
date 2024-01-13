@@ -1,0 +1,5 @@
+.btn-close{
+    &:active,&:hover, &:focus{
+       box-shadow: none;
+    }
+}

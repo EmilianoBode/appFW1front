@@ -4,7 +4,7 @@ import { Component, Input } from '@angular/core';
 // project import
 import { NavigationItem } from '../../navigation';
 import { animate, style, transition, trigger } from '@angular/animations';
-import { MenuDTO } from 'src/app/models/menuDTO';
+import { MenuDTO } from 'src/app/_models/menuDTO';
 
 @Component({
   selector: 'app-nav-collapse',

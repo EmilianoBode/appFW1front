@@ -2,21 +2,21 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTabularComponent } from 'src/app/tabular/data-tabular/data-tabular.component';
-import { UtilService } from 'src/app/services/util.service';
+import { UtilService } from 'src/app/_services/util.service';
+import { GeneralComponent } from './general/general/general.component';
 
 
 @Component({
   selector: 'app-default',
   standalone: true,
-  imports: [CommonModule, DataTabularComponent],
+  imports: [CommonModule,GeneralComponent],
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss']
 })
 export default class DefaultComponent implements OnInit, OnChanges{
   // public props
-  public data: any[] = [];
   // Constructor
-  constructor(public utilService: UtilService) {}
+  constructor() {}
 
 
 

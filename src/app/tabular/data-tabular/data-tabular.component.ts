@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { UtilService } from 'src/app/services/util.service';
+import { UtilService } from 'src/app/_services/util.service';
 import { CardComponent } from 'src/app/theme/shared/components/card/card.component';
 
 @Component({

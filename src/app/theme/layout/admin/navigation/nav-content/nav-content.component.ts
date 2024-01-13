@@ -4,8 +4,8 @@ import { Location, LocationStrategy } from '@angular/common';
 import { environment } from 'src/environments/environment';
 
 // project import
-import { MenuDTO } from 'src/app/models/menuDTO';
-import { menuService } from 'src/app/services/menu.service';
+import { MenuDTO } from 'src/app/_models/menuDTO';
+import { menuService } from 'src/app/_services/menu.service';
 
 @Component({
   selector: 'app-nav-content',

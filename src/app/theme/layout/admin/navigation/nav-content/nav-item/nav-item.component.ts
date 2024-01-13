@@ -3,8 +3,8 @@ import { Component, Input } from '@angular/core';
 
 // Project import
 import { NavigationItem } from '../../navigation';
-import { MenuDTO } from 'src/app/models/menuDTO';
-import { UtilService } from 'src/app/services/util.service';
+import { MenuDTO } from 'src/app/_models/menuDTO';
+import { UtilService } from 'src/app/_services/util.service';
 
 @Component({
   selector: 'app-nav-item',

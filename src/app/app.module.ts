@@ -21,6 +21,7 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
 import { HttpClientModule } from  '@angular/common/http';
 import { SortByNumPipe } from './pipes/sort-by-num.pipe';
 import { TypeOfPipe } from './pipes/type-of.pipe';
+import { GeneralComponent } from './demo/home/general/general/general.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { TypeOfPipe } from './pipes/type-of.pipe';
     ConfigurationComponent,
     GuestComponent,
     SortByNumPipe,
-    TypeOfPipe,
+    TypeOfPipe
   ],
   imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule,HttpClientModule],
   providers: [NavigationItem],

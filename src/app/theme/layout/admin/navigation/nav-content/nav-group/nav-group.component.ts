@@ -4,7 +4,7 @@ import { Component, Input, NgZone, OnInit } from '@angular/core';
 // project import
 import { NavigationItem } from '../../navigation';
 import { Location, LocationStrategy } from '@angular/common';
-import { MenuDTO } from 'src/app/models/menuDTO';
+import { MenuDTO } from 'src/app/_models/menuDTO';
 
 @Component({
   selector: 'app-nav-group',
