@@ -14,13 +14,18 @@ export class ModalComponent {
   @Input() titulo: string = '';
   @Input() body: string = '';
   @Input() footer: boolean = true;
+  @Input() reload: boolean = false;
 
   constructor(private activeModal: NgbActiveModal) { }
   close(arg0: string) {
     this.activeModal.close(arg0);
+    if (this.reload) location.reload();
+    
   }
   dismiss(arg0: string) {
     this.activeModal.dismiss(arg0);
+    if (this.reload) location.reload();
+    
   }
 
 }

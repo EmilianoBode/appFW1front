@@ -13,7 +13,7 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
 export class DataTabularComponent{
 
   @Input() data?: any[];
-  constructor(public titulo : UtilService){}
+  constructor(public UtilService : UtilService){}
 
   get keys(){
     return this.data && this.data.length > 0 ? Object.keys(this.data[0]) : [];

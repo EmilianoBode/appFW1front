@@ -1,20 +1,31 @@
-.inputItem{
+.inputItem2{
     width: 100%;
     border: none;
+}
+.inputItem1{
+    width: 100%;
 }
 .Selected{
     width: 100%;
     border: none;
-    &:hover{
+    &:hover,option:hover{
         cursor: pointer;
     }
 }
+.idSel{
+    width: 50px;
+    text-align: center;
+}
 .btn{
-    min-width: 250px;
-    margin: auto;
+    min-width: 150px;
+    height: 30px;
+    // margin: auto;
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-weight: 600;
-    font-size: 20px;
+    font-size: 16px;
+}
+.btn-delete{
+    min-width: 10px;
+    font-size: 15px;
 }

@@ -1,10 +1,10 @@
 // Angular import
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 // Project import
-import { NavigationItem } from '../../navigation';
 import { MenuDTO } from 'src/app/_models/menuDTO';
 import { UtilService } from 'src/app/_services/util.service';
+import { menuService } from 'src/app/_services/menu.service';
 
 @Component({
   selector: 'app-nav-item',
@@ -14,8 +14,9 @@ import { UtilService } from 'src/app/_services/util.service';
 export class NavItemComponent {
   // public props
   @Input() item!: MenuDTO;
+  @ViewChild('menuActivo') menuActivo: ElementRef;
 
-  constructor(private serv : UtilService){}
+  constructor(private utilService: UtilService, private menuService: menuService) { }
 
   // public method
   closeOtherMenu(event: any) {
@@ -46,15 +47,24 @@ export class NavItemComponent {
     }
   }
 
-  ejecutarMetodo(metodo:string,itemName:string): void{
+  ejecutarMetodo(metodo: string, itemName: string): void {
     if (!metodo) return
-    
-    this.serv.menuTitulo = itemName;
-    this.serv.getTabular(metodo).subscribe({
-      next: (m :any[]) =>{
-        this.serv.tabular = m;
+
+    this.utilService.menuTitulo = itemName;
+    this.menuService.urlActive = metodo;
+    this.utilService.getTabular(metodo).subscribe({
+      next: (m: any[]) => {
+        this.utilService.tabular = m;
       }
     })
 
+  }
+
+  setActive(): void {
+    let allLinks = document.querySelectorAll('.active');
+    allLinks.forEach(element => {
+      element.classList.remove('active')
+    });
+    this.menuActivo.nativeElement.classList.add('active')
   }
 }

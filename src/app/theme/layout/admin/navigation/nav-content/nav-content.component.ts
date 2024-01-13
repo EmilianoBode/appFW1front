@@ -50,7 +50,8 @@ export class NavContentComponent implements OnInit {
     if (baseHref) {
       current_url = baseHref + this.location.path();
     }
-    const link = "a.nav-link[ href='" + current_url + "' ]";
+    const link = "a.nav-link[ href='" + current_url + "&"+ this.menuService.urlActive +"' ]";
+    console.log(link)
     const ele = document.querySelector(link);
     if (ele !== null && ele !== undefined) {
       const parent = ele.parentElement;
