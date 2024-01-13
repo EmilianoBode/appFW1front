@@ -1,0 +1,29 @@
+<div class="row">
+    <!-- [ sample-page ] start -->
+      <div class="col-sm-12">
+          <div class="card">
+              <div class="card-header">
+                  <h5>{{titulo.menuTitulo}}</h5>
+              </div>
+              <div class="card-body">
+                  <table class="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th *ngFor="let key of keys">
+                            {{key}}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of data">
+                          <th *ngFor="let key of keys">
+                            {{item[key]}}
+                          </th>
+                        </tr>
+                      </tbody>
+                    </table>
+              </div>
+            </div>
+      </div>
+    <!-- [ sample-page ] end -->
+  </div>

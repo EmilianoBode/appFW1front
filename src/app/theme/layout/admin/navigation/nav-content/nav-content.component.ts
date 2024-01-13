@@ -4,7 +4,8 @@ import { Location, LocationStrategy } from '@angular/common';
 import { environment } from 'src/environments/environment';
 
 // project import
-import { NavigationItem } from '../navigation';
+import { MenuDTO } from 'src/app/models/menuDTO';
+import { menuService } from 'src/app/services/menu.service';
 
 @Component({
   selector: 'app-nav-content',
@@ -14,21 +15,20 @@ import { NavigationItem } from '../navigation';
 export class NavContentComponent implements OnInit {
   // public props
   @Output() NavCollapsedMob: EventEmitter<any> = new EventEmitter();
-
+  public menu: MenuDTO[];
   // version
   currentApplicationVersion = environment.appVersion;
 
-  navigation: any;
+  
   windowWidth = window.innerWidth;
 
   // Constructor
   constructor(
-    public nav: NavigationItem,
     private zone: NgZone,
     private location: Location,
-    private locationStrategy: LocationStrategy
+    private locationStrategy: LocationStrategy,
+    private menuService: menuService
   ) {
-    this.navigation = this.nav.get();
   }
 
   // Life cycle events
@@ -36,6 +36,12 @@ export class NavContentComponent implements OnInit {
     if (this.windowWidth < 1025) {
       (document.querySelector('.coded-navbar') as HTMLDivElement).classList.add('menupos-static');
     }
+    this.menuService.getMenu().subscribe({
+      next: (m:MenuDTO[])=>{
+        this.menu = m;
+      }
+    })
+
   }
 
   fireOutClick() {

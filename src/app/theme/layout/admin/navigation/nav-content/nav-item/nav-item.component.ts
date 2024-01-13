@@ -3,6 +3,8 @@ import { Component, Input } from '@angular/core';
 
 // Project import
 import { NavigationItem } from '../../navigation';
+import { MenuDTO } from 'src/app/models/menuDTO';
+import { UtilService } from 'src/app/services/util.service';
 
 @Component({
   selector: 'app-nav-item',
@@ -11,7 +13,9 @@ import { NavigationItem } from '../../navigation';
 })
 export class NavItemComponent {
   // public props
-  @Input() item!: NavigationItem;
+  @Input() item!: MenuDTO;
+
+  constructor(private serv : UtilService){}
 
   // public method
   closeOtherMenu(event: any) {
@@ -40,5 +44,17 @@ export class NavItemComponent {
     if ((document.querySelector('app-navigation.coded-navbar') as HTMLDivElement).classList.contains('mob-open')) {
       (document.querySelector('app-navigation.coded-navbar') as HTMLDivElement).classList.remove('mob-open');
     }
+  }
+
+  ejecutarMetodo(metodo:string,itemName:string): void{
+    if (!metodo) return
+    
+    this.serv.menuTitulo = itemName;
+    this.serv.getTabular(metodo).subscribe({
+      next: (m :any[]) =>{
+        this.serv.tabular = m;
+      }
+    })
+
   }
 }

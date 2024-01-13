@@ -18,6 +18,9 @@ import { NavItemComponent } from './theme/layout/admin/navigation/nav-content/na
 import { SharedModule } from './theme/shared/shared.module';
 import { ConfigurationComponent } from './theme/layout/admin/configuration/configuration.component';
 import { GuestComponent } from './theme/layout/guest/guest.component';
+import { HttpClientModule } from  '@angular/common/http';
+import { SortByNumPipe } from './pipes/sort-by-num.pipe';
+import { TypeOfPipe } from './pipes/type-of.pipe';
 
 @NgModule({
   declarations: [
@@ -33,9 +36,11 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
     NavItemComponent,
     NavCollapseComponent,
     ConfigurationComponent,
-    GuestComponent
+    GuestComponent,
+    SortByNumPipe,
+    TypeOfPipe,
   ],
-  imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule],
+  imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule,HttpClientModule],
   providers: [NavigationItem],
   bootstrap: [AppComponent]
 })

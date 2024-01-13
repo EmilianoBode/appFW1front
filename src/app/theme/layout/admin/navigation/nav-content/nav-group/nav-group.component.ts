@@ -4,6 +4,7 @@ import { Component, Input, NgZone, OnInit } from '@angular/core';
 // project import
 import { NavigationItem } from '../../navigation';
 import { Location, LocationStrategy } from '@angular/common';
+import { MenuDTO } from 'src/app/models/menuDTO';
 
 @Component({
   selector: 'app-nav-group',
@@ -12,7 +13,7 @@ import { Location, LocationStrategy } from '@angular/common';
 })
 export class NavGroupComponent implements OnInit {
   // public props
-  @Input() item!: NavigationItem;
+  @Input() item!: MenuDTO;
 
   // Constructor
   constructor(

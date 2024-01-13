@@ -1,0 +1,11 @@
+.inputItem{
+    width: 100%;
+    border: none;
+}
+.Selected{
+    width: 100%;
+    border: none;
+    &:hover{
+        cursor: pointer;
+    }
+}

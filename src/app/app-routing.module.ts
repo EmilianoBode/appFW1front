@@ -26,8 +26,8 @@ const routes: Routes = [
         loadComponent: () => import('./demo/elements/element-color/element-color.component')
       },
       {
-        path: 'sample-page',
-        loadComponent: () => import('./demo/sample-page/sample-page.component')
+        path: 'edit-menu',
+        loadComponent: () => import('./demo/pages/gestionMenu/edit-menu/edit-menu.component')
       }
     ]
   },
