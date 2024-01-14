@@ -9,7 +9,6 @@ import { ModalComponent } from 'src/app/componentes/modal/modal/modal.component'
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import * as _ from 'lodash';
 import { menuEditar } from 'src/app/_models/menuEditar';
-import { filter } from 'rxjs';
 @Component({
   selector: 'app-edit-menu',
   templateUrl: './edit-menu.component.html',
@@ -23,6 +22,7 @@ export default class EditMenuComponent implements OnInit {
   public titulo: string = "Nuevo Menú";
   public valoresInput: string[] = [];
   private dataOrigin: menuNuevo[];
+  public ultimoMenu: menuEditar[];
 
   constructor(public utilService: UtilService, private modalService: NgbModal, private menuService: menuService) { }
 
@@ -30,8 +30,11 @@ export default class EditMenuComponent implements OnInit {
     this.utilService.getTabular('tabular.editarmenu').subscribe({
       next: (m: any[]) => {
         this.data = m;
+        this.ultimoMenu = this.data.slice(-1)
       }
     })
+
+    
 
   }
 
@@ -73,7 +76,7 @@ export default class EditMenuComponent implements OnInit {
       orden: !isNaN(Number(v[7])) ? Number(v[7]) : null
     };
 
-    this.menuService.mergeMenu('tabular.menu', menuNuevo).subscribe(
+    this.menuService.createMenu('tabular.menu', menuNuevo).subscribe(
       () => {
         this.valoresInput = [];
         location.reload();
@@ -102,32 +105,29 @@ export default class EditMenuComponent implements OnInit {
 
     let dataChangue = this.extractValues()
 
+    if (_.isEqual(this.dataOrigin,dataChangue)) return this.openModal('Error','No hay nada que actualizar!',false)
+
     let diffData = dataChangue.filter((changue) => {
       const correspondingOrigin = this.dataOrigin.find(origin => origin.id === changue.id);
       return !_.isEqual(changue, correspondingOrigin)
     })
 
-    diffData.forEach(menu => {
-      this.menuService.mergeMenu('tabular.menu',menu).subscribe(
-        ()=>{
-
-           // habria que poner algo acá en el response ok
-        },
-        (err :HttpErrorResponse)=>{
-          this.openModal('Erroe','Ups, algo salio mal: '+err.statusText,false)
-          return
-        }
-      )
-    });
-    location.reload();
-    
+    this.menuService.mergeMenu('tabular.menu',diffData).subscribe(
+      ()=>{
+       location.reload();
+      },
+      (err :HttpErrorResponse)=>{
+        this.openModal('Error','Ups, algo salio mal: '+err.statusText,false)
+        return
+      }
+    );
   }
 
 
   extractValues() {
     let newArray = [];
 
-    const rows = document.querySelectorAll('tbody tr');
+    const rows = document.querySelectorAll('.tbodyData tr');
     rows.forEach((row) => {
       let newItem: any = {};
 
@@ -150,31 +150,20 @@ export default class EditMenuComponent implements OnInit {
 
       newArray.push(newItem);
     });
-    newArray.shift()
     return newArray;
   }
 
   deleteMenu(id:number){
 
     let menuDe = this.data.filter((e)=>e.id == id);
-    let datos: menuNuevo = {
-      id: menuDe[0].id,
-      name: menuDe[0].name,
-      url: menuDe[0].url,
-      idTipo: menuDe[0].tipo.id,
-      icono: menuDe[0].icono,
-      ejecuta: menuDe[0].ejecuta,
-      padre: menuDe[0].padre,
-      orden: menuDe[0].orden
-    };
 
-    this.openModal('Warning!','Estás seguro de borrar el menú "'+ datos.name + '"?',false);
-    this.menuService.deleteMenu('tabular.menu.'+datos.id).subscribe(
+    // this.openModal('Warning!','Estás seguro de borrar el menú "'+ menuDe[0].name + '"?',false);
+    this.menuService.deleteMenu('tabular.menu.'+menuDe[0].id).subscribe(
       ()=>{
-        this.openModal('Exito!','El menú "'+ datos.name + '" fue borrado correctamente',true);
+        this.openModal('Exito!','El menú "'+ menuDe[0].name + '" fue borrado correctamente',true);
       },
       (err :HttpErrorResponse) => {
-        this.openModal('Error','Error al intentar borrar '+ datos.name + ' ('+ err.statusText+')',false);
+        this.openModal('Error','Error al intentar borrar '+ menuDe[0].name + ' ('+ err.statusText+')',false);
         
       }
     );

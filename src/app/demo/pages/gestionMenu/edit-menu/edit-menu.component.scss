@@ -2,10 +2,18 @@
     width: 100%;
     border: none;
 }
+.btn-th{
+    width: 0%;
+}
 .inputItem1{
     width: 100%;
+    border: none;
+    background: transparent;
+    &:active,&:focus{
+        background: #fff;
+    }
 }
-.Selected{
+.Selected,.Selected1{
     width: 100%;
     border: none;
     &:hover,option:hover{

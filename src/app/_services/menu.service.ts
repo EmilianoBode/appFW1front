@@ -16,11 +16,17 @@ export class menuService {
     }
 
     mergeMenu(url: string, body: any) : Observable<any> {
-     return this.http.post('api/'+url,body)
+     return this.http.put('api/'+url,body)
       .pipe(
         map(result => result)
         )
     }
+    createMenu(url: string, body: any) : Observable<any> {
+      return this.http.post('api/'+url,body)
+       .pipe(
+         map(result => result)
+         )
+     }
     deleteMenu(url: string): Observable<any>{
       return this.http.delete('api/'+url)
         .pipe(

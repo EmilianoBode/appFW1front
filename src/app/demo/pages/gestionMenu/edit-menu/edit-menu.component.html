@@ -34,8 +34,40 @@
   </div>
 </div>
 
+<div class="row justify-content-center">
+  <div class="col-sm-12">
+    <app-card [cardTitle]="'Ultimo creado'">
+      <div class="col-sm-12">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th></th>
+              <th *ngFor="let key of keys"> 
+                {{key}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of ultimoMenu;">
+              <th  class="btn-th"><i class="ti ti-trash btn btn-delete btn-outline-danger d-flex" (click)="deleteMenu(item.id)"></i></th>
+              <th *ngFor="let key of keys;">
+                <ng-container disabled *ngIf="key == 'id'">{{item[key]}}</ng-container>
+                <ng-container *ngIf="key != 'tipo' && key != 'id'">
+                  <span>{{item[key]}}</span>
+                </ng-container>
+                <ng-container *ngIf="key == 'tipo'">
+                  <span>{{item[key].id + ' ' + item[key].name}}</span>
+                </ng-container>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+  </div>
+</div>
+
 <div class="row">
-  <!-- [ sample-page ] start -->
   <div class="col-sm-12">
     <div class="card">
       <div class="card-header d-flex">
@@ -51,7 +83,7 @@
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="tbodyData">
             <tr *ngFor="let item of data ">
               <th><i class="ti ti-trash btn btn-delete btn-outline-danger d-flex" (click)="deleteMenu(item.id)"></i></th>
               <th *ngFor="let key of keys ; index as j">
@@ -74,5 +106,4 @@
       </div>
     </div>
   </div>
-  <!-- [ sample-page ] end -->
 </div>
