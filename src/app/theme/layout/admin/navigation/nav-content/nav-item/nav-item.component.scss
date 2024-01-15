@@ -1,3 +1,11 @@
 .nav-item::before{
     content: none !important;
 }
+.active{
+    color: #673ab7;
+}
+.nav-item{
+    &:hover{
+        color: #673ab7;
+    }
+}

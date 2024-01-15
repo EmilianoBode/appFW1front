@@ -1,6 +1,6 @@
-<li *ngIf="item.url" #menuActivo>
-  <a class="nav-item" target="_self" [routerLink]="[item.url]" (click)="setActive();ejecutarMetodo(item.ejecuta,item.name);">
-    <span *ngIf="item.icono" class="coded-micon"><i [ngClass]="'ti ti-'+item.icono"></i></span>
+<li>
+  <a  #menuActivo class="nav-item" target="_self" [routerLink]="[item.url]" (click)="setActive();ejecutarMetodo(item.ejecuta,item.name);">
+    <span *ngIf="item.icono" class="coded-micon"><i [ngClass]="'bi bi-'+item.icono"></i></span>
     <span class="coded-mtext" *ngIf="item.icono; else directTitle">{{ item.name }}</span>
     <ng-template #directTitle>
       {{ item.name }}

@@ -1,7 +1,12 @@
 <div class="row justify-content-center">
   <div class="col-sm-12">
-    <app-card [cardTitle]="titulo">
+    <div class="card">
+      <div class="card-header d-flex align-items-center">
+        <h5>{{ titulo }}</h5>
+        <a style="margin-left: 20px;" target="_blank" class="btn-outline-info d-flex btn-sm" href="https://icons.getbootstrap.com/"><span><i class="ti ti-checkbox"></i>Ver iconos</span></a>
+      </div>
       <div class="col-sm-12">
+        <div class="card-block">
         <table class="table table-striped table-hover">
           <thead>
             <tr>
@@ -30,7 +35,8 @@
         </table>
         <button type="button" class="btn btn-outline-success d-flex" (click)="SetData()">Crear</button>
       </div>
-    </app-card>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -70,8 +76,17 @@
 <div class="row">
   <div class="col-sm-12">
     <div class="card">
-      <div class="card-header d-flex">
-        <h5 class="d-flex">Editar Menú</h5><a style="margin-left: 20px;" target="_blank" class="btn-outline-info d-flex btn-sm" href="https://tabler.io/icons"><span><i class="ti ti-checkbox"></i>Iconos</span></a>
+      <div class="card-header d-flex align-items-center">
+        <h5 class="d-flex">Editar Menú</h5>
+        <div class="input-search">
+          <span>Filtrar por nombre</span>
+          <input class="button" type="text" style="padding: 0 10px;" (keyup)="buscarByName(inputBusqueda)" [(ngModel)]="inputBusqueda">
+        </div>
+        <div class="input-search">
+          <span>Filtrar por id</span>
+          <input class="button" type="text" style="width: 70px;padding: 0 10px;" (keyup)="buscarById(inputBusqueda2)" [(ngModel)]="inputBusqueda2">
+        </div>
+        <span (click)="resetBusqueda()" class="btn-reset"><i class="ti ti-checkbox"></i>Reset</span>
       </div>
       <div class="card-body">
         <table class="table table-striped table-hover">
@@ -84,7 +99,7 @@
             </tr>
           </thead>
           <tbody class="tbodyData">
-            <tr *ngFor="let item of data ">
+            <tr *ngFor="let item of dataFilter ">
               <th><i class="ti ti-trash btn btn-delete btn-outline-danger d-flex" (click)="deleteMenu(item.id)"></i></th>
               <th *ngFor="let key of keys ; index as j">
                 <input class="Selected1 idSel"   disabled *ngIf="key == 'id'" value="{{item[key]}}">

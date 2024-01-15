@@ -1,5 +1,5 @@
 // Angular import
-import { Component, Input } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
 // project import
 import { NavigationItem } from '../../navigation';
@@ -23,9 +23,8 @@ import { MenuDTO } from 'src/app/_models/menuDTO';
 export class NavCollapseComponent {
   // public props
   @Input() item!: MenuDTO;
-
   windowWidth = window.innerWidth;
-
+  
   // public method
   navCollapse(e: any) {
     let parent = e.target;

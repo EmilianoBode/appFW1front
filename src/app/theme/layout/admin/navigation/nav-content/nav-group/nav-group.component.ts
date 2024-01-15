@@ -1,5 +1,5 @@
 // Angular import
-import { Component, Input, NgZone, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnInit, ViewChild } from '@angular/core';
 
 // project import
 import { NavigationItem } from '../../navigation';
@@ -14,7 +14,7 @@ import { MenuDTO } from 'src/app/_models/menuDTO';
 export class NavGroupComponent implements OnInit {
   // public props
   @Input() item!: MenuDTO;
-
+  
   // Constructor
   constructor(
     private zone: NgZone,
@@ -48,4 +48,5 @@ export class NavGroupComponent implements OnInit {
       }
     }
   }
+
 }

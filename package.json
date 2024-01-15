@@ -23,7 +23,6 @@
     "@angular/router": "^16.1.6",
     "@ng-bootstrap/ng-bootstrap": "^14.1.1",
     "@popperjs/core": "^2.11.8",
-    "@tabler/icons": "^2.46.0",
     "apexcharts": "^3.41.0",
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.11.3",

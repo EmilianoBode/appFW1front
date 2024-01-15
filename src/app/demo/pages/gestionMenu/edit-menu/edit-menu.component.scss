@@ -37,3 +37,31 @@
     min-width: 10px;
     font-size: 15px;
 }
+.input-search{
+    margin-left: 20px;
+    display: flex;
+    $border-radius: 5px;
+    span{
+        padding: 5px 10px;
+        border-radius: $border-radius 0 0 $border-radius;
+        color: #fff;
+        font-weight: 600;
+        background: linear-gradient(-135deg, #899fd4 0%, #a389d4 100%);
+    }
+    input{
+        border:1px solid #899fd4;
+        border-radius: 0 $border-radius $border-radius 0;
+    }
+}
+.btn-reset{
+    margin-left: 20px;
+    color:#6087e2;
+    &:hover{
+        cursor: pointer;
+    }
+    
+}
+.table{
+    border-radius: 8px;
+    overflow: hidden;
+}

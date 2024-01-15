@@ -19,10 +19,13 @@ import { menuEditar } from 'src/app/_models/menuEditar';
 export default class EditMenuComponent implements OnInit {
 
   public data: menuEditar[];
+  public dataFilter: menuEditar[];
   public titulo: string = "Nuevo Menú";
-  public valoresInput: string[] = [];
+  public valoresInput: any[] = [];
   private dataOrigin: menuNuevo[];
   public ultimoMenu: menuEditar[];
+  public inputBusqueda: string;
+  public inputBusqueda2: any;
 
   constructor(public utilService: UtilService, private modalService: NgbModal, private menuService: menuService) { }
 
@@ -31,10 +34,9 @@ export default class EditMenuComponent implements OnInit {
       next: (m: any[]) => {
         this.data = m;
         this.ultimoMenu = this.data.slice(-1)
+        this.dataFilter = this.data;
       }
     })
-
-    
 
   }
 
@@ -50,7 +52,7 @@ export default class EditMenuComponent implements OnInit {
 
   openModal(titulo: string, body: string, reload: boolean) {
 
-    let modal = this.modalService.open(ModalComponent, { centered: true})
+    let modal = this.modalService.open(ModalComponent, { centered: true })
     modal.componentInstance.titulo = titulo;
     modal.componentInstance.body = body;
     modal.componentInstance.footer = true;
@@ -62,19 +64,41 @@ export default class EditMenuComponent implements OnInit {
     let v = this.valoresInput;
 
 
-    if (v.length == 0) {
-      return this.openModal('Aviso!', 'Completá todos los campos!', false)
+    for (let i = 0; i < this.valoresInput.length; i++) {
+
+      if (v[i] && typeof v[i] == 'string') {
+
+        v[i] = v[i].trim();
+        if (!isNaN(parseInt(v[i]))) v[i] = parseInt(v[i]);
+        if (!v[i]) v[i] = null;
+
+      }
+      else if (!v[i] || isNaN(v[i])) {
+        v[i] = null;
+      }
     }
+
+    // console.log(valoresNoVacios)
     let menuNuevo: menuNuevo = {
       id: null,
       name: v[1],
       url: v[2],
-      idTipo: !isNaN(Number(v[3])) ? Number(v[3]) : null,
+      idTipo: v[3],
       icono: v[4],
       ejecuta: v[5],
-      padre: !isNaN(Number(v[6])) ? Number(v[6]) : null,
-      orden: !isNaN(Number(v[7])) ? Number(v[7]) : null
+      padre: v[6],
+      orden: v[7]
     };
+
+    if (menuNuevo.name == null || menuNuevo.idTipo == null) {
+      return this.openModal('Aviso!', 'Completá los campos obligatorios!', false)
+    }
+    else if (typeof menuNuevo.padre != 'number' && menuNuevo.padre != null) {
+      return this.openModal('Aviso!', 'El campo "padre" debe contener numeros', false)
+    }
+    else if (typeof menuNuevo.orden != 'number' && menuNuevo.orden != null) {
+      return this.openModal('Aviso!', 'El campo "orden" debe contener numeros', false)
+    }
 
     this.menuService.createMenu('tabular.menu', menuNuevo).subscribe(
       () => {
@@ -84,7 +108,7 @@ export default class EditMenuComponent implements OnInit {
       }, (err: HttpErrorResponse) => {
         this.openModal('Error', err.statusText, false);
       }
-    )
+    );
   }
   updateButton() {
     this.dataOrigin = [];
@@ -105,26 +129,25 @@ export default class EditMenuComponent implements OnInit {
 
     let dataChangue = this.extractValues()
 
-    if (_.isEqual(this.dataOrigin,dataChangue)) return this.openModal('Error','No hay nada que actualizar!',false)
+    if (_.isEqual(this.dataOrigin, dataChangue)) return this.openModal('Aviso', 'No hay nada que actualizar!', false)
 
     let diffData = dataChangue.filter((changue) => {
       const correspondingOrigin = this.dataOrigin.find(origin => origin.id === changue.id);
       return !_.isEqual(changue, correspondingOrigin)
     })
 
-    this.menuService.mergeMenu('tabular.menu',diffData).subscribe(
-      ()=>{
-       location.reload();
+    this.menuService.mergeMenu('tabular.menu', diffData).subscribe(
+      () => {
+        location.reload();
       },
-      (err :HttpErrorResponse)=>{
-        this.openModal('Error','Ups, algo salio mal: '+err.statusText,false)
-        return
+      (err: HttpErrorResponse) => {
+        this.openModal('Error', 'Ups, algo salio mal: ' + err.statusText, false)
       }
     );
   }
 
 
-  extractValues() {
+  extractValues(): any[] {
     let newArray = [];
 
     const rows = document.querySelectorAll('.tbodyData tr');
@@ -153,21 +176,49 @@ export default class EditMenuComponent implements OnInit {
     return newArray;
   }
 
-  deleteMenu(id:number){
+  deleteMenu(id: number) {
 
-    let menuDe = this.data.filter((e)=>e.id == id);
+    let menuDe = this.data.filter((e) => e.id == id);
 
     // this.openModal('Warning!','Estás seguro de borrar el menú "'+ menuDe[0].name + '"?',false);
-    this.menuService.deleteMenu('tabular.menu.'+menuDe[0].id).subscribe(
-      ()=>{
-        this.openModal('Exito!','El menú "'+ menuDe[0].name + '" fue borrado correctamente',true);
+    this.menuService.deleteMenu('tabular.menu.' + menuDe[0].id).subscribe(
+      () => {
+        location.reload();
       },
-      (err :HttpErrorResponse) => {
-        this.openModal('Error','Error al intentar borrar '+ menuDe[0].name + ' ('+ err.statusText+')',false);
-        
+      (err: HttpErrorResponse) => {
+        this.openModal('Error', 'Error al intentar borrar ' + menuDe[0].name + ' (' + err.statusText + ')', false);
+
       }
     );
 
+  }
+
+  buscarByName(input: string): void {
+
+    this.dataFilter = [];
+    let busqueda = input.toUpperCase();
+
+    for (const item of this.data) {
+      if (item.name.toUpperCase().includes(busqueda)) {
+        this.dataFilter.push(item)
+      }
+    }
+  }
+  buscarById(id: number): void {
+
+    this.dataFilter = [];
+    for (const item of this.data) {
+      if (item.id == id) {
+        this.dataFilter.push(item)
+        return
+      }
+    }
+    this.dataFilter = this.data;
+  }
+  resetBusqueda():void{
+    this.dataFilter = this.data;
+    this.inputBusqueda = '';
+    this.inputBusqueda2 = '';
   }
 
 }

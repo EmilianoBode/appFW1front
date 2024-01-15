@@ -1,11 +1,11 @@
-<li data-username="Berry dashboard" class="nav-item coded-hasmenu" [routerLinkActive]="['active']">
-  <a [routerLinkActive]="['active']" href="javascript:" class="nav-link" (click)="navCollapse($event)">
+<li data-username="Berry dashboard" class="nav-item coded-hasmenu">
+  <a href="javascript:" class="nav-link" (click)="navCollapse($event)">
     <span class="coded-micon" *ngIf="item.icono">
       <i class="{{ item.icono }}"></i>
     </span>
     <span class="coded-mtext">{{ item.name }} </span>
   </a>
-  <ul class="coded-submenu" [routerLinkActive]="['active']">
+  <ul class="coded-submenu">
     <ng-container *ngFor="let item of item.hijos">
       <app-nav-group *ngIf="item.tipo === 'groupo'" [item]="item"></app-nav-group>
       <app-nav-collapse *ngIf="item.tipo === 'desplegable'" [item]="item"></app-nav-collapse>
