@@ -6,3 +6,9 @@
     background: none;
   }
 }
+.username{
+  margin-right: 30px;
+  &:hover{
+    cursor: pointer;
+  }
+}

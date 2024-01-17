@@ -110,7 +110,15 @@
         </div>
       </div>
     </li> -->
-    <div class="pc-head-link pc-h-item header-user-profile">
+    <div class="pc-head-link pc-h-item header-user-profile username">
+      <li>
+        <a class="dropdown-item d-flex align-items-center d-flex" style="gap: 5px;">
+          <i class="bi bi-person-circle"></i>
+          <span>{{username}}</span>
+        </a>
+      </li>
+    </div>
+    <div class="pc-head-link pc-h-item header-user-profile"> |
       <li>
         <a [routerLink]="['/guest/login']" class="dropdown-item">
           <i class="ti ti-logout"></i>
@@ -118,6 +126,7 @@
         </a>
       </li>
     </div>
+
     <!-- <li>
 
       <div class="dropdown pc-h-item header-user-profile" ngbDropdown>
