@@ -13,9 +13,14 @@ import { CardComponent } from 'src/app/theme/shared/components/card/card.compone
 export class DataTabularComponent{
 
   @Input() data?: any[];
+  @Input() column?: any[]
   constructor(public UtilService : UtilService){}
 
-  get keys(){
+  get items(){
     return this.data && this.data.length > 0 ? Object.keys(this.data[0]) : [];
+  }
+  
+  get keys(){
+    return this.column && this.column.length > 0 ? Object.values(this.column[0]) : [];
   }
 }

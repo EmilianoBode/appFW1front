@@ -10,10 +10,10 @@ export class UtilService {
   menuTitulo: string;
   Menu: MenuDTO;
   tabular: any[];
+  data:any[];
+  column:any[];
 
-  constructor(private http: HttpClient) {
-
-  }
+  constructor(private http: HttpClient) {}
 
   getTabular(url: string): Observable<any[]> {
     return this.http.get<any[]>('api/' + url);

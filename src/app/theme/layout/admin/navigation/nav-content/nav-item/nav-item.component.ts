@@ -55,6 +55,8 @@ export class NavItemComponent {
     this.utilService.getTabular(metodo).subscribe({
       next: (m: any[]) => {
         this.utilService.tabular = m;
+        this.utilService.data = m[0].data
+        this.utilService.column = m[0].column
       }
     })
 
