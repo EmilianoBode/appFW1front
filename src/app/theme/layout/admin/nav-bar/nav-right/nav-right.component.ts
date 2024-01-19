@@ -15,4 +15,9 @@ export class NavRightComponent implements OnInit{
     console.log(this.user)
     this.username = this.user.name;
   }
+
+  logOut(){
+    sessionStorage.setItem("UserLogueado",null)
+    location.reload();
+  }
 }

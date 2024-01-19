@@ -1,12 +1,27 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { LoginService } from 'src/app/_services/login.service';
+import { SharedModule } from 'src/app/theme/shared/shared.module';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,SharedModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export default class LoginComponent {}
+export default class LoginComponent {
+  public User: string;
+  public Pass: string;
+
+  constructor(private log : LoginService, private router : Router){}
+  login(){
+    this.log.getUserLogin('login.'+this.User+'.'+this.Pass).subscribe({
+      next: (user: any)=>{
+        sessionStorage.setItem("UserLogueado",JSON.stringify(user));
+        this.router.navigateByUrl('/')
+      }
+    })
+  }
+}

@@ -11,8 +11,13 @@ export class menuService {
 
     constructor(private http : HttpClient){}
 
+
+
     getMenu(): Observable<MenuDTO[]>{
-        return this.http.get<MenuDTO[]>('api/tabular.menu');
+
+      let userLog = JSON.parse(sessionStorage.getItem("UserLogueado"));
+
+        return this.http.post<MenuDTO[]>('api/tabular.menuget',userLog);
     }
 
     mergeMenu(url: string, body: any) : Observable<any> {

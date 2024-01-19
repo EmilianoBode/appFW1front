@@ -120,7 +120,7 @@
     </div>
     <div class="pc-head-link pc-h-item header-user-profile"> |
       <li>
-        <a [routerLink]="['/guest/login']" class="dropdown-item">
+        <a (click)="logOut()" class="dropdown-item">
           <i class="ti ti-logout"></i>
           <span>Logout</span>
         </a>

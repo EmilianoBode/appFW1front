@@ -12,20 +12,12 @@ export class AppComponent implements OnInit{
   constructor(private Log : LoginService, private router: Router){}
   
   ngOnInit(): void {
-    this.login();
     console.log(sessionStorage.getItem("UserLogueado"))
 
-    if(sessionStorage.getItem("UserLogueado") == 'null'){
+    if(sessionStorage.getItem("UserLogueado") == 'null' || sessionStorage.getItem("UserLogueado") == null){
       this.router.navigateByUrl('guest/login')
     }
   }
 
 
-  login(){
-    this.Log.getUserLogin('login.administ.administ').subscribe({
-      next: (user: any)=>{
-        sessionStorage.setItem("UserLogueado",JSON.stringify(user));
-      }
-    })
-  }
 }

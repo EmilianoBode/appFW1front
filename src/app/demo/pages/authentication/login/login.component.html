@@ -2,7 +2,7 @@
   <div class="auth-wrapper v3">
     <div class="auth-form">
       <div class="card my-5">
-        <div class="card-body">
+        <div class="card-body" (keydown.enter)="login()">
           <a href="#" class="d-flex justify-content-center">
             <img src="assets/images/logo-dark.svg" />
           </a>
@@ -15,11 +15,11 @@
             </div>
           </div>
           <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="floatingInput" value="" />
+            <input type="email" class="form-control" id="floatingInput" [(ngModel)]="User" />
             <label for="floatingInput">Usuario</label>
           </div>
           <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="password" value="" />
+            <input type="password" class="form-control" id="password" [(ngModel)]="Pass" />
             <label for="password">Contraseña</label>
           </div>
           <div class="d-flex mt-1 justify-content-between">
@@ -32,7 +32,7 @@
             </h5>
           </div>
           <div class="d-grid mt-4">
-            <button type="button" class="btn btn-secondary">Entrar</button>
+            <button (click)="login()" type="button" class="btn btn-secondary">Entrar</button>
           </div>
           <hr />
           <h5 class="d-flex justify-content-center">
