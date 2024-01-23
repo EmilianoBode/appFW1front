@@ -28,6 +28,10 @@ const routes: Routes = [
       {
         path: 'edit-menu',
         loadComponent: () => import('./demo/pages/gestionMenu/edit-menu/edit-menu.component')
+      },
+      {
+        path: 'edit-rol',
+        loadComponent: () => import('./demo/pages/gestionMenu/edit-rol/edit-rol.component')
       }
     ]
   },

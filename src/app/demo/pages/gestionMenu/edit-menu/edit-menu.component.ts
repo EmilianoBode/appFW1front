@@ -37,7 +37,6 @@ export default class EditMenuComponent implements OnInit {
         this.dataFilter = this.data;
       }
     })
-
   }
 
   get keys() {
@@ -45,7 +44,6 @@ export default class EditMenuComponent implements OnInit {
   }
 
   isTypeString(key) {
-    console.log(typeof key)
     return typeof key == 'object'
   }
 

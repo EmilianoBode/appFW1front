@@ -1,5 +1,6 @@
 // Angular import
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nav-right',
@@ -10,6 +11,8 @@ export class NavRightComponent implements OnInit{
   private user: any;
   public username: string;
 
+  constructor(private router: Router){}
+
   ngOnInit():void{
     this.user = JSON.parse(sessionStorage.getItem("UserLogueado"))
     console.log(this.user)
@@ -18,6 +21,6 @@ export class NavRightComponent implements OnInit{
 
   logOut(){
     sessionStorage.setItem("UserLogueado",null)
-    location.reload();
+    this.router.navigateByUrl('guest/login')
   }
 }
