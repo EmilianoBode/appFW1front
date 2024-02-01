@@ -2,7 +2,7 @@
     <div class="col-sm-12">
       <div class="card">
         <div class="card-header d-flex align-items-center">
-          <h5>Editar Roles</h5>
+          <h5>Asignar nuevo rol a menú</h5>
           <a style="margin-left: 20px;" target="_blank" class="btn-outline-info d-flex btn-sm" href="https://icons.getbootstrap.com/"><span><i class="ti ti-checkbox"></i>Ver iconos</span></a>
         </div>
         <div class="col-sm-12">
@@ -19,9 +19,18 @@
               <tr >
                 <th *ngFor="let item of keys; index as i">
                   <ng-container disabled *ngIf="item == 'Id'">{{item}}</ng-container>
-                  <ng-container *ngIf="item != 'Id'">
-                    <input class="inputItem2" type="text" [(ngModel)]="valoresInput[i]">
+                  <ng-container *ngIf="item != 'Id'&& item != 'Rol de usuario'">
+                    <select  class="Selected1" >
+                      <option disabled selected value="">Seleccione un menú</option>
+                      <option *ngFor="let menu of menuList" value="rol.id">{{menu.id}} {{menu.name}}</option>
+                    </select>
                   </ng-container>
+                  <ng-container *ngIf="item != 'id' && item == 'Rol de usuario'">
+                    <select  class="Selected1" >
+                      <option disabled selected value="">Seleccione Rol de Usuario</option>
+                      <option *ngFor="let rol of userRol" value="rol.id">{{rol.id}} {{rol.name}}</option>
+                    </select>
+                   </ng-container>
                 </th>
               </tr>
             </tbody>
@@ -37,7 +46,7 @@
     <div class="col-sm-12">
       <div class="card">
         <div class="card-header d-flex align-items-center">
-          <h5 class="d-flex">Editar Menú</h5>
+          <h5 class="d-flex">Editar rol de menú</h5>
           <div class="input-search">
             <span>Filtrar por nombre</span>
             <input class="button" type="text" style="padding: 0 10px;" [(ngModel)]="inputBusqueda">
