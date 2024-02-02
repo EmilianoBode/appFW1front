@@ -3,7 +3,7 @@
       <div class="card">
         <div class="card-header d-flex align-items-center">
           <h5>Asignar nuevo rol a menú</h5>
-          <a style="margin-left: 20px;" target="_blank" class="btn-outline-info d-flex btn-sm" href="https://icons.getbootstrap.com/"><span><i class="ti ti-checkbox"></i>Ver iconos</span></a>
+          <!-- <a style="margin-left: 20px;" target="_blank" class="btn-outline-info d-flex btn-sm" href="https://icons.getbootstrap.com/"><span><i class="ti ti-checkbox"></i>Ver iconos</span></a> -->
         </div>
         <div class="col-sm-12">
           <div class="card-block">
@@ -15,27 +15,27 @@
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="createTable">
               <tr >
                 <th *ngFor="let item of keys; index as i">
                   <ng-container disabled *ngIf="item == 'Id'">{{item}}</ng-container>
                   <ng-container *ngIf="item != 'Id'&& item != 'Rol de usuario'">
-                    <select  class="Selected1" >
+                    <select  class="Selected" >
                       <option disabled selected value="">Seleccione un menú</option>
-                      <option *ngFor="let menu of menuList" value="rol.id">{{menu.id}} {{menu.name}}</option>
+                      <option *ngFor="let menu of menuList" value="{{menu.id}}">{{menu.id}} {{menu.name}}</option>
                     </select>
                   </ng-container>
                   <ng-container *ngIf="item != 'id' && item == 'Rol de usuario'">
-                    <select  class="Selected1" >
+                    <select  class="Selected" >
                       <option disabled selected value="">Seleccione Rol de Usuario</option>
-                      <option *ngFor="let rol of userRol" value="rol.id">{{rol.id}} {{rol.name}}</option>
+                      <option *ngFor="let rol of userRol" value="{{rol.id}}">{{rol.id}} {{rol.name}}</option>
                     </select>
                    </ng-container>
                 </th>
               </tr>
             </tbody>
           </table>
-          <button type="button" class="btn btn-outline-success d-flex">Crear</button>
+          <button type="button" class="btn btn-outline-success d-flex" (click)="setMenuRol()">Crear</button>
         </div>
         </div>
       </div>
@@ -48,12 +48,12 @@
         <div class="card-header d-flex align-items-center">
           <h5 class="d-flex">Editar rol de menú</h5>
           <div class="input-search">
-            <span>Filtrar por nombre</span>
+            <span>Filtrar por menú</span>
             <input class="button" type="text" style="padding: 0 10px;" [(ngModel)]="inputBusqueda">
           </div>
           <div class="input-search">
-            <span>Filtrar por id</span>
-            <input class="button" type="text" style="width: 70px;padding: 0 10px;" [(ngModel)]="inputBusqueda2">
+            <span>Filtrar por rol</span>
+            <input class="button" type="text" style="padding: 0 10px;" [(ngModel)]="inputBusqueda2">
           </div>
           <span class="btn-reset"><i class="ti ti-checkbox"></i>Reset</span>
         </div>
@@ -69,24 +69,24 @@
             </thead>
             <tbody class="tbodyData"> 
               <tr *ngFor="let item of items ">
-                <th style="width: 0;"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
+                <th style="width: 0;" (click)="deleteMenuRol(item.id)"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
                 <th *ngFor="let key of keysData ; index as j">
                   <!-- <input style="width: 0;" class="Selected1 idSel"   disabled *ngIf="key == 'id'" value="{{item[key]}}"> -->
                   <span disabled *ngIf="key == 'id'">{{item[key]}}</span>
-                  <ng-container *ngIf="key != 'id' && key == 'idRolUsuario'">
+                  <!-- <ng-container *ngIf="key != 'id' && key == 'idRolUsuario'">
                     <select  class="Selected1" >
                       <option disabled selected value="{{item[key].id}}">{{item[key].id}} {{item[key].name}}</option>
                       <option *ngFor="let rol of userRol" value="rol.id">{{rol.id}} {{rol.name}}</option>
                     </select>
-                   </ng-container>
-                   <ng-container *ngIf="key != 'id' && key == 'idMenu'">
+                   </ng-container> -->
+                   <ng-container *ngIf="key != 'id'">
                     <span>{{item[key].id}} {{item[key].name}}</span>
                    </ng-container>
                 </th>
               </tr>
             </tbody>
           </table>
-          <button type="button" class="btn btn-outline-primary d-flex">Actualizar</button>
+          <!-- <button type="button" class="btn btn-outline-primary d-flex">Actualizar</button> -->
         </div>
       </div>
     </div>

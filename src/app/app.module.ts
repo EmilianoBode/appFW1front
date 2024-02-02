@@ -22,6 +22,7 @@ import { HttpClientModule } from  '@angular/common/http';
 import { SortByNumPipe } from './pipes/sort-by-num.pipe';
 import { TypeOfPipe } from './pipes/type-of.pipe';
 import { GeneralComponent } from './demo/home/general/general/general.component';
+import { ToastsContainer } from './toast-container.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { GeneralComponent } from './demo/home/general/general/general.component'
     SortByNumPipe,
     TypeOfPipe
   ],
-  imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule,HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule,HttpClientModule,ToastsContainer],
   providers: [NavigationItem],
   bootstrap: [AppComponent]
 })

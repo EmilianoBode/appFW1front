@@ -32,7 +32,19 @@ export class menuService {
          map(result => result)
          )
      }
+     createRolMenu(url: string, body: any) : Observable<any> {
+      return this.http.post('api/'+url,body)
+       .pipe(
+         map(result => result)
+         )
+     }
     deleteMenu(url: string): Observable<any>{
+      return this.http.delete('api/'+url)
+        .pipe(
+          map(result => result)
+        )
+    }
+    deleteRolMenu(url: string): Observable<any>{
       return this.http.delete('api/'+url)
         .pipe(
           map(result => result)
