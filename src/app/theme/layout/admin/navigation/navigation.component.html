@@ -3,7 +3,7 @@
   <div class="navbar-wrapper">
     <div class="m-header">
       <!-- [ Header Topbar ] start -->
-      <a [routerLink]="['/home/']" class="b-brand">
+      <a [routerLink]="['/home/']" (click)="setHome();this.NavCollapsedMob.emit()" class="b-brand">
         <!-- ========   change your logo hear   ============ -->
         <img src="assets/images/logo-dark.svg" class="logo logo-lg" />
       </a>

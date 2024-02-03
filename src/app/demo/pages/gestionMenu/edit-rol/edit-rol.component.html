@@ -10,27 +10,27 @@
           <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th *ngFor="let key of keys">
-                  {{key}}
+                <th>
+                  Menu
+                </th>
+                <th>
+                  Rol de Usuario
                 </th>
               </tr>
             </thead>
             <tbody class="createTable">
               <tr >
-                <th *ngFor="let item of keys; index as i">
-                  <ng-container disabled *ngIf="item == 'Id'">{{item}}</ng-container>
-                  <ng-container *ngIf="item != 'Id'&& item != 'Rol de usuario'">
+                <th>
                     <select  class="Selected" >
                       <option disabled selected value="">Seleccione un menú</option>
                       <option *ngFor="let menu of menuList" value="{{menu.id}}">{{menu.id}} {{menu.name}}</option>
                     </select>
-                  </ng-container>
-                  <ng-container *ngIf="item != 'id' && item == 'Rol de usuario'">
+                </th>
+                <th>
                     <select  class="Selected" >
                       <option disabled selected value="">Seleccione Rol de Usuario</option>
                       <option *ngFor="let rol of userRol" value="{{rol.id}}">{{rol.id}} {{rol.name}}</option>
                     </select>
-                   </ng-container>
                 </th>
               </tr>
             </tbody>
@@ -49,44 +49,45 @@
           <h5 class="d-flex">Editar rol de menú</h5>
           <div class="input-search">
             <span>Filtrar por menú</span>
-            <input class="button" type="text" style="padding: 0 10px;" [(ngModel)]="inputBusqueda">
+            <input class="button" type="text" style="padding: 0 10px;" (keyup)="buscarByMenuName(inputBusqueda)" [(ngModel)]="inputBusqueda">
           </div>
           <div class="input-search">
             <span>Filtrar por rol</span>
-            <input class="button" type="text" style="padding: 0 10px;" [(ngModel)]="inputBusqueda2">
+            <input class="button" type="text" style="padding: 0 10px;" (keyup)="buscarByRolName(inputBusqueda2)" [(ngModel)]="inputBusqueda2">
           </div>
-          <span class="btn-reset"><i class="ti ti-checkbox"></i>Reset</span>
+          <span class="btn-reset" (click)="busquedaReset()"><i class="ti ti-checkbox"></i>Reset</span>
         </div>
         <div class="card-body">
           <table class="table table-striped table-hover">
             <thead>
               <tr>
                 <th></th>
-                <th *ngFor="let key of keys">
-                  {{key}}
-                </th>
+                <ng-container *ngFor="let key of keys">
+                  <th *ngIf="key != 'Id'">
+                    {{key}}
+                  </th>
+                </ng-container>
               </tr>
             </thead>
             <tbody class="tbodyData"> 
               <tr *ngFor="let item of items ">
                 <th style="width: 0;" (click)="deleteMenuRol(item.id)"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
-                <th *ngFor="let key of keysData ; index as j">
+                <ng-container *ngFor="let key of keysData ; index as j">
                   <!-- <input style="width: 0;" class="Selected1 idSel"   disabled *ngIf="key == 'id'" value="{{item[key]}}"> -->
-                  <span disabled *ngIf="key == 'id'">{{item[key]}}</span>
+                  <!-- <span disabled *ngIf="key == 'id'">{{item[key]}}</span> -->
                   <!-- <ng-container *ngIf="key != 'id' && key == 'idRolUsuario'">
                     <select  class="Selected1" >
                       <option disabled selected value="{{item[key].id}}">{{item[key].id}} {{item[key].name}}</option>
                       <option *ngFor="let rol of userRol" value="rol.id">{{rol.id}} {{rol.name}}</option>
                     </select>
                    </ng-container> -->
-                   <ng-container *ngIf="key != 'id'">
-                    <span>{{item[key].id}} {{item[key].name}}</span>
-                   </ng-container>
-                </th>
+                   <th *ngIf="key != 'id'">
+                    <span>{{item[key].name}}</span>
+                   </th>
+                </ng-container>
               </tr>
             </tbody>
           </table>
-          <!-- <button type="button" class="btn btn-outline-primary d-flex">Actualizar</button> -->
         </div>
       </div>
     </div>

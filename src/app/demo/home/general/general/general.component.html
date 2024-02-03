@@ -1,1 +1,2 @@
-<app-data-tabular [data]="utilService.data" [column]="utilService.column"></app-data-tabular>
+<app-data-tabular *ngIf="utilService.data || utilService.column" [data]="utilService.data" [column]="utilService.column"></app-data-tabular>
+<app-home *ngIf="!utilService.data || !utilService.column"/>

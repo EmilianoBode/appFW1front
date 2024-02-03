@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { DataTabularComponent } from 'src/app/tabular/data-tabular/data-tabular.component';
 import { UtilService } from 'src/app/_services/util.service';
 import { GeneralComponent } from './general/general/general.component';
+import { HomeComponent } from './general/home/home.component';
 
 
 @Component({
   selector: 'app-default',
   standalone: true,
-  imports: [CommonModule,GeneralComponent],
+  imports: [CommonModule,GeneralComponent,HomeComponent],
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.scss']
 })

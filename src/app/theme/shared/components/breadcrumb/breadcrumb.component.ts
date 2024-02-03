@@ -124,6 +124,6 @@ export class BreadcrumbComponent {
       }
     });
     this.navigationList = result;
-    this.titleService.setTitle(title + ' | AppFW1');
+    // this.titleService.setTitle(title + ' | AppFW1');
   }
 }

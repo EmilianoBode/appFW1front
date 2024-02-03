@@ -202,6 +202,7 @@ export default class EditMenuComponent implements OnInit {
       }
     }
   }
+  
   buscarById(id: number): void {
 
     this.dataFilter = [];

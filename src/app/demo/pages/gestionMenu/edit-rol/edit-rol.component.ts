@@ -7,7 +7,7 @@ import { RolMenu } from 'src/app/_models/rolMenu';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { menuService } from 'src/app/_services/menu.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { result } from 'lodash';
+import { result, toUpper } from 'lodash';
 import { ToastService } from 'src/app/_services/Toast/toast-service';
 
 @Component({
@@ -19,12 +19,13 @@ import { ToastService } from 'src/app/_services/Toast/toast-service';
 })
 export default class EditRolComponent implements OnInit {
   private data: any[];
+  private dataFilter: any[];
   private column: any[];
   public userRol: any[];
   public menuList: any[];
   public valoresInput: any[]= [];
   public inputBusqueda: string;
-  public inputBusqueda2: any;
+  public inputBusqueda2: string;
 
   constructor(private utilService: UtilService, private menuService:menuService,private modalService: NgbModal, private toastService:ToastService) { }
 
@@ -33,6 +34,7 @@ export default class EditRolComponent implements OnInit {
       next: (m: any[]) => {
         this.data = m[0].data;
         this.column = m[0].column;
+        this.dataFilter = this.data;
       }
     })
     this.utilService.getTabular('tabular.rol_usuarios').subscribe({
@@ -49,7 +51,7 @@ export default class EditRolComponent implements OnInit {
 
 
   get items() {
-    return this.data && this.data.length > 0 ? Object.values(this.data) : [];
+    return this.dataFilter && this.data.length > 0 ? Object.values(this.dataFilter) : [];
   }
 
   get keys() {
@@ -57,7 +59,7 @@ export default class EditRolComponent implements OnInit {
   }
 
   get keysData(){
-    return this.data && this.data.length > 0 ? Object.keys(this.data[0]) : [];
+    return this.dataFilter && this.data.length > 0 ? Object.keys(this.dataFilter[0]) : [];
   }
 
   openModal(titulo: string, body: string, reload: boolean) {
@@ -98,14 +100,47 @@ export default class EditRolComponent implements OnInit {
   }
 
   deleteMenuRol(id: number):void {
+   
     this.menuService.deleteRolMenu(`tabular.rolmenu.${id}`).subscribe(
       () => {
-        location.reload();
+        this.dataFilter = this.dataFilter.filter((d)=>d.id != id)
       },
       (err: HttpErrorResponse) => {
         this.openModal('Error', 'Error al intentar borrar el rol (' + err.statusText + ')', false);
 
       }
     );
+  }
+
+  buscarByMenuName(intput:string):void {
+
+    this.dataFilter = [];
+    let busqueda = intput.toUpperCase();
+
+    for (const item of this.data) {
+        let name = item.idMenu.name.toUpperCase();
+        if (name.includes(busqueda)) {
+          this.dataFilter.push(item)
+        }
+    };
+  }
+
+  buscarByRolName(intput:string):void {
+
+    this.dataFilter = [];
+    let busqueda = intput.toUpperCase();
+
+    for (const item of this.data) {
+        let name = item.idRolUsuario.name.toUpperCase();
+        if (name.includes(busqueda)) {
+          this.dataFilter.push(item)
+        }
+    };
+  }
+
+  busquedaReset():void{
+    this.inputBusqueda = '';
+    this.inputBusqueda2 = '';
+    this.dataFilter = this.data;
   }
 }

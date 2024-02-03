@@ -1,5 +1,5 @@
 // Angular import
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 // Project import
 import { MenuDTO } from 'src/app/_models/menuDTO';
@@ -14,6 +14,9 @@ import { menuService } from 'src/app/_services/menu.service';
 export class NavItemComponent {
   // public props
   @Input() item!: MenuDTO;
+  @Input() navCollapsed: boolean;
+  @Output() NavCollapsedMob = new EventEmitter();
+  windowWidth: number;
   @ViewChild('menuActivo') menuActivo: ElementRef;
 
   constructor(private utilService: UtilService, private menuService: menuService) { }
@@ -68,5 +71,11 @@ export class NavItemComponent {
       element.classList.remove('active')
     });
     this.menuActivo.nativeElement.classList.add('active')
+  }
+  navCollapse() {
+    if (this.windowWidth >= 1025) {
+      this.navCollapsed = !this.navCollapsed;
+      this.NavCollapsedMob.emit();
+    }
   }
 }

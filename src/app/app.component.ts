@@ -12,12 +12,8 @@ export class AppComponent implements OnInit{
   constructor(private Log : LoginService, private router: Router){}
   
   ngOnInit(): void {
-    console.log(sessionStorage.getItem("UserLogueado"))
-
     if(sessionStorage.getItem("UserLogueado") == 'null' || sessionStorage.getItem("UserLogueado") == null){
       this.router.navigateByUrl('guest/login')
     }
   }
-
-
 }
