@@ -12,6 +12,7 @@ export class UtilService {
   tabular: any[];
   data:any[];
   column:any[];
+  ref: string;
 
   constructor(private http: HttpClient) {}
 

@@ -1,0 +1,73 @@
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <h5>Nuevo {{utilService.ref}}</h5>
+        </div>
+        <div class="col-sm-12">
+          <div class="card-block">
+          <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <ng-container *ngFor="let key of keys">
+                      <th *ngIf="key != 'Id'">
+                        {{key}}
+                      </th>
+                    </ng-container>
+                  </tr>
+            </thead>
+            <tbody class="createTable">
+              <tr >
+                <ng-container *ngFor="let key of keysData ; index as j">
+                    <th *ngIf="key != 'id'">
+                     <input type="text" class="inputItem2">
+                    </th>
+                 </ng-container>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" class="btn btn-outline-success d-flex">Crear</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header d-flex align-items-center">
+          <h5 class="d-flex">Editar {{utilService.ref}}</h5>
+          <div class="input-search">
+            <span>Filtrar</span>
+            <input class="button" type="text" style="padding: 0 10px;" [(ngModel)]="inputBusqueda">
+          </div>
+          <span class="btn-reset"><i class="ti ti-checkbox"></i>Reset</span>
+        </div>
+        <div class="card-body">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th></th>
+                <ng-container *ngFor="let key of keys">
+                  <th *ngIf="key != 'Id'">
+                    {{key}}
+                  </th>
+                </ng-container>
+              </tr>
+            </thead>
+            <tbody class="tbodyData"> 
+              <tr *ngFor="let item of items ">
+                <th style="width: 0;"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
+                <ng-container *ngFor="let key of keysData ; index as j">
+                   <th *ngIf="key != 'id'">
+                    <input type="text" class="inputItem1" value="{{item[key]}}">
+                   </th>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
