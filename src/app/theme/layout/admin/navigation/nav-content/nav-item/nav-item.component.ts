@@ -57,10 +57,12 @@ export class NavItemComponent {
     this.menuService.urlActive = metodo;
     this.utilService.getTabular(metodo).subscribe({
       next: (m: any[]) => {
+        let item = m[0]
         this.utilService.tabular = m;
-        this.utilService.ref = m[0].ref
-        this.utilService.data = m[0].data
-        this.utilService.column = m[0].column
+        this.utilService.ref = item.ref
+        this.utilService.data = item.data
+        this.utilService.column = item.column
+        this.utilService.desp = item.desplegables
       }
     })
 

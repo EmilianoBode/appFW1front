@@ -13,6 +13,7 @@ export class UtilService {
   data:any[];
   column:any[];
   ref: string;
+  desp: string[];
 
   constructor(private http: HttpClient) {}
 

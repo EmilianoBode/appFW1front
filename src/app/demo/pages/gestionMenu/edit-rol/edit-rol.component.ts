@@ -39,7 +39,7 @@ export default class EditRolComponent implements OnInit {
     })
     this.utilService.getTabular('tabular.rol_usuarios').subscribe({
       next: (r: any[])=>{
-        this.userRol = r;
+        this.userRol = r[0].data;
       }
     })
     this.utilService.getTabular('tabular.editarmenu').subscribe({

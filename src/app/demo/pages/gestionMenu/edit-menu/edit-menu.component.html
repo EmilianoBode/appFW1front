@@ -77,7 +77,8 @@
   <div class="col-sm-12">
     <div class="card">
       <div class="card-header d-flex align-items-center">
-        <h5 class="d-flex">Editar Menú</h5>
+        <h5 class="d-flex">Editar Menú</h5> 
+        <button type="button" class="btn btn-outline-primary d-flex" style="margin-left: 10px;" (click)="updateButton()">Actualizar</button>
         <div class="input-search">
           <span>Filtrar por nombre</span>
           <input class="button" type="text" style="padding: 0 10px;" (keyup)="buscarByName(inputBusqueda)" [(ngModel)]="inputBusqueda">
@@ -88,6 +89,7 @@
         </div>
         <span (click)="resetBusqueda()" class="btn-reset"><i class="ti ti-checkbox"></i>Reset</span>
       </div>
+      
       <div class="card-body">
         <table class="table table-striped table-hover">
           <thead>
@@ -103,8 +105,9 @@
               <th><i class="ti ti-trash btn btn-delete btn-outline-danger d-flex" (click)="deleteMenu(item.id)"></i></th>
               <th *ngFor="let key of keys ; index as j">
                 <input class="Selected1 idSel"   disabled *ngIf="key == 'id'" value="{{item[key]}}">
-                <ng-container *ngIf="key != 'tipo' && key != 'id'"><input class="inputItem1" type="text"
-                    value="{{item[key]}}"></ng-container>
+                <ng-container *ngIf="key != 'tipo' && key != 'id'">
+                  <input class="inputItem1" type="text" (keydown.enter)="updateButton()" value="{{item[key]}}">
+                </ng-container>
                 <ng-container *ngIf="key == 'tipo'">
                   <select class="Selected1">
                     <option disabled selected value="{{item[key].id}}">{{item[key].id + ' ' + item[key].name}}</option>
@@ -117,7 +120,6 @@
             </tr>
           </tbody>
         </table>
-        <button type="button" class="btn btn-outline-primary d-flex" (click)="updateButton()">Actualizar</button>
       </div>
     </div>
   </div>
