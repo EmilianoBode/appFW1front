@@ -19,7 +19,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   @Input() ref : string;
   @Input() desp: string[];
   private dataFilter: any[]=[];
-  public desplegableData: any[];
+  public desplegableData: any;
   public menuList: any[];
   public valoresInput: any[]= [];
   public inputBusqueda: string;
@@ -31,28 +31,39 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
       this.dataFilter = this.data;
     }
     if(changes['desp']){
-      this.getDesplegables();
-      console.log(this.desplegableData)
+      this.getDesplegablesMapping();
+      // console.log(this.desplegableData)
     }
   }
 
   ngOnInit(): void {
         this.dataFilter = this.data;
-        // this.getDesplegables();
 
   }
 
 
-  getDesplegables(){
-    this.desplegableData = [];
-    this.desp.forEach((desplegable,i) => {
-      this.utilService.getTabular('tabular.' + desplegable).subscribe({
-        next: (d: any[])=>{
-          this.desplegableData.push(d[0].data);
-        }
-      })
-    });
+  async getDesplegablesMapping(){
+
+    this.desplegableData = {};
+
+    let despData: any[] = [];
+    let keyData: any[] = this.getKeyWithObj();
+
+    for (let i = 0; i < this.desp.length; i++) {
+      const desplegable = this.desp[i];
+      try {
+        const d: any[] = await this.utilService.getTabular('tabular.' + desplegable).toPromise();
+        despData.push(d[0].data);
+      } catch (error) {
+        console.error('Error al obtener datos para ' + desplegable, error);
+      }
+    }
+    for (let i = 0; i < keyData.length; i++) {
+      const key = keyData[i];
+      this.desplegableData[key] = despData[i]
+    }
   }
+
 
   get items() {
     return this.dataFilter && this.data.length > 0 ? Object.values(this.dataFilter) : [];
@@ -86,12 +97,23 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     this.dataFilter = this.data;
     this.inputBusqueda = '';
   }
-  // getObject(item: any): string{
-  //   console.log(item)
-  //   if (item != null){
-  //     return item.name;
-  //   }
-  //   return null;
-  // }
 
+  getKeyWithObj(){
+    let keyList: any[] = [];
+
+    for (const key in this.items[0]) {
+        if( typeof this.items[0][key] === "object" && this.items[0][key] != null){
+         keyList.push(key);
+        }
+      }
+
+      return keyList;
+    }
+
+    mappingDesplegableData(){
+
+
+
+    }
 }
+
