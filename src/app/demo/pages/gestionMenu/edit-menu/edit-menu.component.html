@@ -19,7 +19,7 @@
             <tr >
               <th *ngFor="let item of keys; index as i">
                 <ng-container disabled *ngIf="item == 'id'">{{item}}</ng-container>
-                <ng-container *ngIf="item != 'tipo' && item != 'id'">
+                <ng-container *ngIf="item != 'tipo' && item != 'id' && item != 'padre'">
                   <input class="inputItem2" type="text" [(ngModel)]="valoresInput[i]">
                 </ng-container>
                 <ng-container *ngIf="item == 'tipo'">
@@ -27,6 +27,15 @@
                     <option value="1">1 Grupo</option>
                     <option value="2">2 Desplegable</option>
                     <option value="3">3 Item</option>
+                  </select>
+                </ng-container>
+                <ng-container *ngIf="item == 'padre'">
+                  <select class="Selected1" [(ngModel)]="valoresInput[i]">
+                    <option selected value="{{null}}">Sin padre</option>
+                    <ng-container *ngFor="let padre of findPadre">
+                      <option  value="{{padre.id}}">{{padre.name}}</option>
+                    </ng-container>
+                    
                   </select>
                 </ng-container>
               </th>
@@ -58,11 +67,14 @@
               <th  class="btn-th"><i class="ti ti-trash btn btn-delete btn-outline-danger d-flex" (click)="deleteMenu(item.id)"></i></th>
               <th *ngFor="let key of keys;">
                 <ng-container disabled *ngIf="key == 'id'">{{item[key]}}</ng-container>
-                <ng-container *ngIf="key != 'tipo' && key != 'id'">
+                <ng-container *ngIf="key != 'tipo' && key != 'id' && key != 'padre'">
                   <span>{{item[key]}}</span>
                 </ng-container>
                 <ng-container *ngIf="key == 'tipo'">
                   <span>{{item[key].id + ' ' + item[key].name}}</span>
+                </ng-container>
+                <ng-container *ngIf="key == 'padre'">
+                  <span>{{getNamePadre(item[key])}}</span>
                 </ng-container>
               </th>
             </tr>
@@ -105,8 +117,17 @@
               <th><i class="ti ti-trash btn btn-delete btn-outline-danger d-flex" (click)="deleteMenu(item.id)"></i></th>
               <th *ngFor="let key of keys ; index as j">
                 <input class="Selected1 idSel"   disabled *ngIf="key == 'id'" value="{{item[key]}}">
-                <ng-container *ngIf="key != 'tipo' && key != 'id'">
+                <ng-container *ngIf="key != 'tipo' && key != 'id' && key != 'padre'">
                   <input class="inputItem1" type="text" (keydown.enter)="updateButton()" value="{{item[key]}}">
+                </ng-container>
+                <ng-container *ngIf="key == 'padre'">
+                  <select class="Selected1">
+                    <option disabled selected value="{{item[key]}}">{{getNamePadre(item[key])}}</option>
+                    <ng-container *ngFor="let padre of findPadre">
+                      <option  value="{{padre.id}}">{{padre.name}}</option>
+                    </ng-container>
+                    
+                  </select>
                 </ng-container>
                 <ng-container *ngIf="key == 'tipo'">
                   <select class="Selected1">

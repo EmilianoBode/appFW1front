@@ -20,6 +20,7 @@ export default class EditMenuComponent implements OnInit {
 
   public data: menuEditar[];
   public dataFilter: menuEditar[];
+  public findPadre: menuEditar[]=[];
   public titulo: string = "Nuevo Menú";
   public valoresInput: any[] = [];
   private dataOrigin: menuNuevo[];
@@ -35,6 +36,7 @@ export default class EditMenuComponent implements OnInit {
         this.data = m;
         this.ultimoMenu = this.data.slice(-1)
         this.dataFilter = this.data;
+        this.getFinderPadre();
       }
     })
   }
@@ -59,33 +61,30 @@ export default class EditMenuComponent implements OnInit {
   }
 
   SetData(): void {
-    let v = this.valoresInput;
-
+    let input = this.valoresInput;
 
     for (let i = 0; i < this.valoresInput.length; i++) {
 
-      if (v[i] && typeof v[i] == 'string') {
+      if (input[i] && typeof input[i] == 'string') {
 
-        v[i] = v[i].trim();
-        if (!isNaN(parseInt(v[i]))) v[i] = parseInt(v[i]);
-        if (!v[i]) v[i] = null;
+        input[i] = input[i].trim();
+        if (!isNaN(parseInt(input[i]))) input[i] = parseInt(input[i]);
+        if (!input[i]) input[i] = null;
 
       }
-      else if (!v[i] || isNaN(v[i])) {
-        v[i] = null;
+      else if (!input[i] || isNaN(input[i])) {
+        input[i] = null;
       }
     }
 
-    // console.log(valoresNoVacios)
     let menuNuevo: menuNuevo = {
       id: null,
-      name: v[1],
-      url: v[2],
-      idTipo: v[3],
-      icono: v[4],
-      ejecuta: v[5],
-      padre: v[6],
-      orden: v[7]
+      name: input[1],
+      idTipo: input[2],
+      icono: input[3],
+      ejecuta: input[4],
+      padre: input[5],
+      orden: input[6]
     };
 
     if (menuNuevo.name == null || menuNuevo.idTipo == null) {
@@ -94,8 +93,8 @@ export default class EditMenuComponent implements OnInit {
     else if (typeof menuNuevo.padre != 'number' && menuNuevo.padre != null) {
       return this.openModal('Aviso!', 'El campo "padre" debe contener numeros', false)
     }
-    else if (typeof menuNuevo.orden != 'number' && menuNuevo.orden != null) {
-      return this.openModal('Aviso!', 'El campo "orden" debe contener numeros', false)
+    else if (typeof menuNuevo.orden != 'number' || menuNuevo.orden == null || menuNuevo.orden == 0) {
+      return this.openModal('Aviso!', 'El campo "orden" debe contener números y no puede ser 0', false)
     }
 
     this.menuService.createMenu('tabular.menu', menuNuevo).subscribe(
@@ -114,7 +113,6 @@ export default class EditMenuComponent implements OnInit {
       let datos: menuNuevo = {
         id: data.id,
         name: data.name,
-        url: data.url,
         idTipo: data.tipo.id,
         icono: data.icono,
         ejecuta: data.ejecuta,
@@ -218,6 +216,22 @@ export default class EditMenuComponent implements OnInit {
     this.dataFilter = this.data;
     this.inputBusqueda = '';
     this.inputBusqueda2 = '';
+  }
+
+  getFinderPadre():void{
+    for (const menu of this.data) {
+      if(menu.tipo.id != 3){
+        this.findPadre.push(menu);
+      }
+    }
+  }
+  getNamePadre(padreId:number):string{
+    for (const menu of this.findPadre) {
+      if(menu.id == padreId){
+        return menu.name;
+      }
+    }
+    return null;
   }
 
 }

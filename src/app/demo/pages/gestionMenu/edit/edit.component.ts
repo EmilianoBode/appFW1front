@@ -32,7 +32,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     }
     if(changes['desp']){
       this.getDesplegablesMapping();
-      // console.log(this.desplegableData)
     }
   }
 
@@ -49,18 +48,20 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     let despData: any[] = [];
     let keyData: any[] = this.getKeyWithObj();
 
-    for (let i = 0; i < this.desp.length; i++) {
-      const desplegable = this.desp[i];
-      try {
-        const d: any[] = await this.utilService.getTabular('tabular.' + desplegable).toPromise();
-        despData.push(d[0].data);
-      } catch (error) {
-        console.error('Error al obtener datos para ' + desplegable, error);
+    if (this.desp != null) {
+      for (let i = 0; i < this.desp.length; i++) {
+        const desplegable = this.desp[i];
+        try {
+          const d: any[] = await this.utilService.getTabular('tabular.' + desplegable).toPromise();
+          despData.push(d[0].data);
+        } catch (error) {
+          console.error('Error al obtener datos para ' + desplegable, error);
+        }
       }
-    }
-    for (let i = 0; i < keyData.length; i++) {
-      const key = keyData[i];
-      this.desplegableData[key] = despData[i]
+      for (let i = 0; i < keyData.length; i++) {
+        const key = keyData[i];
+        this.desplegableData[key] = despData[i]
+      }
     }
   }
 
@@ -101,8 +102,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   getKeyWithObj(){
     let keyList: any[] = [];
 
-    for (const key in this.items[0]) {
-        if( typeof this.items[0][key] === "object" && this.items[0][key] != null){
+    let item = this.items[0];
+    for (const key in item) {
+        if( typeof item[key] === "object" && item[key] != null){
          keyList.push(key);
         }
       }
@@ -110,10 +112,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
       return keyList;
     }
 
-    mappingDesplegableData(){
-
-
-
+  isKeyWObjct(keyCompare:any, obj: any[]):boolean{
+    for (const key in obj) {
+      if (key === keyCompare) {
+        return true
+      }
     }
+    return false;
+  }
+
+
 }
 

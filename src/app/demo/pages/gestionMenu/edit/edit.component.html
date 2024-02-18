@@ -19,9 +19,21 @@
             <tbody class="createTable">
               <tr >
                 <ng-container *ngFor="let key of keysData ; index as j">
-                    <th *ngIf="key != 'id'">
-                     <input type="text" class="inputItem2">
-                    </th>
+                    <ng-container *ngIf="!isKeyWObjct(key,desplegableData)">
+                      <th *ngIf="key != 'id'">
+                        <input type="text" class="inputItem2">
+                      </th>
+                    </ng-container>
+                    <ng-container *ngIf="isKeyWObjct(key,desplegableData)">
+                      <th>
+                        <select class="Selected">
+                          <option disabled selected value="null">Seleccionar</option>
+                          <ng-container *ngFor="let op of desplegableData[key]">
+                            <option value="{{op.id}}">{{op.name}}</option>
+                          </ng-container>
+                        </select>
+                      </th>
+                    </ng-container>
                  </ng-container>
               </tr>
             </tbody>
@@ -65,7 +77,7 @@
                       <input type="text" class="inputItem1" value="{{item[key]}}">
                     </th>
                    </ng-container>
-                    <ng-template #obj >
+                   <ng-template #obj >
                       <th *ngIf="desplegableData[key]">
                         <select class="Selected1">
                           <option disabled selected value="{{item[key].id}}">{{item[key].name}}</option>
