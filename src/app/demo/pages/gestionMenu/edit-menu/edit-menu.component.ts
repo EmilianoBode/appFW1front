@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { menuNuevo } from 'src/app/_models/menuNuevo';
 import { menuService } from 'src/app/_services/menu.service';
 import { UtilService } from 'src/app/_services/util.service';
@@ -9,6 +8,7 @@ import { ModalComponent } from 'src/app/componentes/modal/modal/modal.component'
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import * as _ from 'lodash';
 import { menuEditar } from 'src/app/_models/menuEditar';
+import { modalService } from 'src/app/_services/modal.service';
 @Component({
   selector: 'app-edit-menu',
   templateUrl: './edit-menu.component.html',
@@ -28,7 +28,7 @@ export default class EditMenuComponent implements OnInit {
   public inputBusqueda: string;
   public inputBusqueda2: any;
 
-  constructor(public utilService: UtilService, private modalService: NgbModal, private menuService: menuService) { }
+  constructor(public utilService: UtilService, private modal: modalService, private menuService: menuService) { }
 
   ngOnInit(): void {
     this.utilService.getTabular('tabular.editarmenu').subscribe({
@@ -47,17 +47,6 @@ export default class EditMenuComponent implements OnInit {
 
   isTypeString(key) {
     return typeof key == 'object'
-  }
-
-
-  openModal(titulo: string, body: string, reload: boolean) {
-
-    let modal = this.modalService.open(ModalComponent, { centered: true })
-    modal.componentInstance.titulo = titulo;
-    modal.componentInstance.body = body;
-    modal.componentInstance.footer = true;
-    modal.componentInstance.reload = reload;
-
   }
 
   SetData(): void {
@@ -88,13 +77,13 @@ export default class EditMenuComponent implements OnInit {
     };
 
     if (menuNuevo.name == null || menuNuevo.idTipo == null) {
-      return this.openModal('Aviso!', 'Completá los campos obligatorios!', false)
+      return this.modal.open('Aviso!', 'Completá los campos obligatorios!')
     }
     else if (typeof menuNuevo.padre != 'number' && menuNuevo.padre != null) {
-      return this.openModal('Aviso!', 'El campo "padre" debe contener numeros', false)
+      return this.modal.open('Aviso!', 'El campo "padre" debe contener numeros')
     }
     else if (typeof menuNuevo.orden != 'number' || menuNuevo.orden == null || menuNuevo.orden == 0) {
-      return this.openModal('Aviso!', 'El campo "orden" debe contener números y no puede ser 0', false)
+      return this.modal.open('Aviso!', 'El campo "orden" debe contener números y no puede ser 0')
     }
 
     this.menuService.createMenu('tabular.menu', menuNuevo).subscribe(
@@ -103,7 +92,7 @@ export default class EditMenuComponent implements OnInit {
         location.reload();
         this.utilService.tabular.push(menuNuevo)
       }, (err: HttpErrorResponse) => {
-        this.openModal('Error', err.statusText, false);
+        this.modal.open('Error', err.statusText);
       }
     );
   }
@@ -125,7 +114,7 @@ export default class EditMenuComponent implements OnInit {
 
     let dataChangue = this.extractValues()
 
-    if (_.isEqual(this.dataOrigin, dataChangue)) return this.openModal('Aviso', 'No hay nada que actualizar!', false)
+    if (_.isEqual(this.dataOrigin, dataChangue)) return this.modal.open('Aviso', 'No hay nada que actualizar!')
 
     let diffData = dataChangue.filter((changue) => {
       const correspondingOrigin = this.dataOrigin.find(origin => origin.id === changue.id);
@@ -137,7 +126,7 @@ export default class EditMenuComponent implements OnInit {
         location.reload();
       },
       (err: HttpErrorResponse) => {
-        this.openModal('Error', 'Ups, algo salio mal: ' + err.statusText, false)
+        this.modal.open('Error', 'Ups, algo salio mal: ' + err.statusText)
       }
     );
   }
@@ -176,13 +165,13 @@ export default class EditMenuComponent implements OnInit {
 
     let menuDe = this.data.filter((e) => e.id == id);
 
-    // this.openModal('Warning!','Estás seguro de borrar el menú "'+ menuDe[0].name + '"?',false);
+    // this.modal.open('Warning!','Estás seguro de borrar el menú "'+ menuDe[0].name + '"?');
     this.menuService.deleteMenu('tabular.menu.' + menuDe[0].id).subscribe(
       () => {
         location.reload();
       },
       (err: HttpErrorResponse) => {
-        this.openModal('Error', 'Error al intentar borrar ' + menuDe[0].name + ' (' + err.statusText + ')', false);
+        this.modal.open('Error', 'Error al intentar borrar ' + menuDe[0].name + ' (' + err.statusText + ')');
 
       }
     );

@@ -19,26 +19,26 @@
             <tbody class="createTable">
               <tr >
                 <ng-container *ngFor="let key of keysData ; index as j">
-                    <ng-container *ngIf="!isKeyWObjct(key,desplegableData)">
+                    <ng-container *ngIf="!isKeyWObjct(key,desplegableData) else isObj">
                       <th *ngIf="key != 'id'">
-                        <input type="text" class="inputItem2">
+                        <input type="text" class="inputItem2" [(ngModel)]="valoresInput[key]">
                       </th>
                     </ng-container>
-                    <ng-container *ngIf="isKeyWObjct(key,desplegableData)">
+                    <ng-template #isObj>
                       <th>
-                        <select class="Selected">
-                          <option disabled selected value="null">Seleccionar</option>
+                        <select class="Selected" [(ngModel)]="valoresInput[key]">
+                          <option disabled selected value="{{null}}">Seleccionar</option>
                           <ng-container *ngFor="let op of desplegableData[key]">
                             <option value="{{op.id}}">{{op.name}}</option>
                           </ng-container>
                         </select>
                       </th>
-                    </ng-container>
+                    </ng-template>
                  </ng-container>
               </tr>
             </tbody>
           </table>
-          <button type="button" class="btn btn-outline-success d-flex">Crear</button>
+          <button type="button" class="btn btn-outline-success d-flex" (click)="setData()">Crear</button>
         </div>
         </div>
       </div>
@@ -50,6 +50,7 @@
       <div class="card">
         <div class="card-header d-flex align-items-center">
           <h5 class="d-flex">Editar {{utilService.ref}}</h5>
+          <button type="button" class="btn btn-outline-primary d-flex" style="margin-left: 10px;" (click)="updateData()">Actualizar</button>
           <div class="input-search">
             <span>Filtrar</span>
             <input (keyup)="buscarByName(inputBusqueda)" class="button" type="text" style="padding: 0 10px;" [(ngModel)]="inputBusqueda">
@@ -70,9 +71,12 @@
             </thead>
             <tbody class="tbodyData"> 
               <tr *ngFor="let item of items ">
-                <th style="width: 0;"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
+                <th (click)="deleteData(item.id)" style="width: 0;"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
                 <ng-container *ngFor="let key of keysData ; index as j">
                    <ng-container *ngIf="!isObject(item[key]) else obj">
+                    <th *ngIf="key == 'id'" style="display: none;">
+                      <input type="text" class="inputItem1" value="{{item[key]}}">
+                    </th>
                     <th *ngIf="key != 'id'">
                       <input type="text" class="inputItem1" value="{{item[key]}}">
                     </th>

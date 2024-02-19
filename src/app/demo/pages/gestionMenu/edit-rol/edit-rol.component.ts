@@ -1,14 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UtilService } from 'src/app/_services/util.service';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { ModalComponent } from 'src/app/componentes/modal/modal/modal.component';
 import { RolMenu } from 'src/app/_models/rolMenu';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { menuService } from 'src/app/_services/menu.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { result, toUpper } from 'lodash';
 import { ToastService } from 'src/app/_services/Toast/toast-service';
+import { modalService } from 'src/app/_services/modal.service';
 
 @Component({
   selector: 'app-edit-rol',
@@ -27,7 +26,7 @@ export default class EditRolComponent implements OnInit {
   public inputBusqueda: string;
   public inputBusqueda2: string;
 
-  constructor(private utilService: UtilService, private menuService:menuService,private modalService: NgbModal, private toastService:ToastService) { }
+  constructor(private utilService: UtilService, private menuService:menuService,private modal: modalService) { }
 
   ngOnInit(): void {
     this.utilService.getTabular('tabular.rolmenu').subscribe({
@@ -62,16 +61,6 @@ export default class EditRolComponent implements OnInit {
     return this.dataFilter && this.data.length > 0 ? Object.keys(this.dataFilter[0]) : [];
   }
 
-  openModal(titulo: string, body: string, reload: boolean) {
-
-    let modal = this.modalService.open(ModalComponent, { centered: true })
-    modal.componentInstance.titulo = titulo;
-    modal.componentInstance.body = body;
-    modal.componentInstance.footer = true;
-    modal.componentInstance.reload = reload;
-
-  }
-
   setMenuRol():void{
     let inputData = document.querySelectorAll('.Selected');
     let idMenu = parseInt((inputData[0] as HTMLSelectElement).value);
@@ -84,7 +73,7 @@ export default class EditRolComponent implements OnInit {
     }
 
     if(isNaN(rolMenuNuevo.idMenu) || isNaN(rolMenuNuevo.idRolUsuario)){
-      return this.openModal('Aviso!', 'Completá todos los campos!', false)
+      return this.modal.open('Aviso!', 'Completá todos los campos!')
     }
 
     this.menuService.createRolMenu('tabular.rolmenu',rolMenuNuevo).subscribe(
@@ -93,7 +82,7 @@ export default class EditRolComponent implements OnInit {
           location.reload();
         }
         else{
-           return this.openModal('Aviso!', resp.respuesta, false)
+           return this.modal.open('Aviso!', resp.respuesta)
         }
       }
     );
@@ -106,7 +95,7 @@ export default class EditRolComponent implements OnInit {
         this.dataFilter = this.dataFilter.filter((d)=>d.id != id)
       },
       (err: HttpErrorResponse) => {
-        this.openModal('Error', 'Error al intentar borrar el rol (' + err.statusText + ')', false);
+        this.modal.open('Error', 'Error al intentar borrar el rol (' + err.statusText + ')');
 
       }
     );

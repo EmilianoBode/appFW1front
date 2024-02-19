@@ -6,7 +6,11 @@
 	<div class="modal-body">
 		<h3>{{body}}</h3>
 	</div>
+	<div class="modal-footer" *ngIf="footerSimple">
+		<button type="button" class="btn btn-secondary" (click)="close()">Aceptar</button>
+	</div>
 	<div class="modal-footer" *ngIf="footer">
-		<button type="button" class="btn btn-secondary" (click)="close('Close click')">Aceptar</button>
+		<button type="button" class="btn btn-secondary" (click)="close()">Cancelar</button>
+		<button type="button" class="btn btn-primary" (click)="aceptar()">Aceptar</button>
 	</div>
 </div>
