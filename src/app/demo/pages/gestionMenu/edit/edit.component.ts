@@ -33,7 +33,7 @@ export default class EditComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.dataFilter = structuredClone(this.data);
-      this.dataCopy = structuredClone(this.data[0]);
+      this.dataCopy = structuredClone(this.column[0]);
       this.setDataType();
     }
     if (changes['desp']) {
@@ -57,7 +57,7 @@ export default class EditComponent implements OnInit, OnChanges {
 
     if (this.desp != null) {
       for (let i = 0; i < this.desp.length; i++) {
-        const desplegable = this.desp[i];
+        const desplegable = Object.values(this.desp[i])[0];
         try {
           const d: any[] = await this.utilService.getTabular('tabular.' + desplegable).toPromise();
           despData.push(d[0].data);
@@ -76,9 +76,13 @@ export default class EditComponent implements OnInit, OnChanges {
     return this.dataFilter && this.data.length > 0 ? Object.values(this.dataFilter) : [];
   }
 
-  get keys() {
+  get keysValues() {
     return this.column && this.column.length > 0 ? Object.values(this.column[0]) : [];
   }
+get keys(){
+  return this.column && this.column.length > 0 ? Object.keys(this.column[0]) : [];
+}
+
 
   get keysData() {
     return this.dataFilter && this.data.length > 0 ? Object.keys(this.dataFilter[0]) : [];
@@ -107,12 +111,9 @@ export default class EditComponent implements OnInit, OnChanges {
 
   getKeyWithObj() {
     let keyList: any[] = [];
-
-    let item = this.items[0];
-    for (const key in item) {
-      if (typeof item[key] === "object" && item[key] != null) {
-        keyList.push(key);
-      }
+    let item = structuredClone(this.desp)
+    for (const it of item) {
+      keyList.push(Object.keys(it)[0])
     }
 
     return keyList;
@@ -129,7 +130,7 @@ export default class EditComponent implements OnInit, OnChanges {
 
   setDataType():void {
 
-    for (const key in this.data[0]) {
+    for (const key in this.column[0]) {
       this.dataCopy[key] = null;
     }
   }
@@ -146,6 +147,7 @@ export default class EditComponent implements OnInit, OnChanges {
     }
     
 
+    console.log(objSet)
     this.utilService.setTabular(this.utilService.ejecutar,objSet).subscribe(
       (res)=>{
         if(res.estado){

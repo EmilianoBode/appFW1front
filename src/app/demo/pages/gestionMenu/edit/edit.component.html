@@ -9,7 +9,7 @@
           <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <ng-container *ngFor="let key of keys">
+                    <ng-container *ngFor="let key of keysValues">
                       <th *ngIf="key != 'Id'">
                         {{key}}
                       </th>
@@ -18,7 +18,7 @@
             </thead>
             <tbody class="createTable">
               <tr >
-                <ng-container *ngFor="let key of keysData ; index as j">
+                <ng-container *ngFor="let key of keys ; index as j">
                     <ng-container *ngIf="!isKeyWObjct(key,desplegableData) else isObj">
                       <th *ngIf="key != 'id'">
                         <input type="text" class="inputItem2" [(ngModel)]="valoresInput[key]">
@@ -62,7 +62,7 @@
             <thead>
               <tr>
                 <th></th>
-                <ng-container *ngFor="let key of keys">
+                <ng-container *ngFor="let key of keysValues">
                   <th *ngIf="key != 'Id'">
                     {{key}}
                   </th>
@@ -93,7 +93,11 @@
                    </ng-template>
                 </ng-container>
               </tr>
+              <ng-container *ngIf="!utilService.data[0]">
+                <span>*No se encontraron registros</span>
+              </ng-container>
             </tbody>
+
           </table>
         </div>
       </div>
