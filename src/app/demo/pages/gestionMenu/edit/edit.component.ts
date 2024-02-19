@@ -170,11 +170,15 @@ export default class EditComponent implements OnInit, OnChanges {
     if (confirm('Seguro que desea eliminar este registro?')) {
       this.utilService.deleteTabular(this.utilService.ejecutar+'.'+id).subscribe(
         (res)=>{
-          this.modal.open('Eliminado',res.respuesta);
-          this.dataFilter = this.dataFilter.filter((f)=> f.id != id);
+          if (res.estado) {
+            this.modal.open('Eliminado',res.respuesta);
+            this.dataFilter = this.dataFilter.filter((f)=> f.id != id);
+          } else {
+            this.modal.open('Aviso!',res.respuesta);
+          }
         },
-        (err)=>{
-          console.log('error',err)
+        (err:HttpErrorResponse)=>{
+          this.modal.open(err.status.toString(),err.statusText);
         }
       )
     }
