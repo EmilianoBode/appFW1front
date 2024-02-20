@@ -5,6 +5,7 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
 import { MenuDTO } from 'src/app/_models/menuDTO';
 import { UtilService } from 'src/app/_services/util.service';
 import { menuService } from 'src/app/_services/menu.service';
+import { Response } from 'src/app/_models/Response';
 
 @Component({
   selector: 'app-nav-item',
@@ -56,14 +57,17 @@ export class NavItemComponent {
     this.utilService.menuTitulo = itemName;
     this.menuService.urlActive = metodo;
     this.utilService.ejecutar = metodo;
+    
     this.utilService.getTabular(metodo).subscribe({
-      next: (m: any[]) => {
-        let item = m[0]
+      next: (m: Response[]) => {
+        let item: Response = m[0]
         this.utilService.tabular = m;
-        this.utilService.ref = item.ref
-        this.utilService.data = item.data
-        this.utilService.column = item.column
-        this.utilService.desp = item.desplegables
+        this.utilService.ref = item.ref;
+        this.utilService.data = item.data;
+        this.utilService.column = item.column;
+        this.utilService.desp = item.desplegables;
+        this.utilService.isBoolean = item.isBoolean;
+        this.utilService.isDate = item.isDate
       }
     })
 

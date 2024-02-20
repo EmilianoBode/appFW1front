@@ -19,12 +19,12 @@
             <tbody class="createTable">
               <tr >
                 <ng-container *ngFor="let key of keys ; index as j">
-                    <ng-container *ngIf="!isKeyWObjct(key,desplegableData) else isObj">
+                    <ng-container *ngIf="!isKeyWObjct(key,desplegableData) && !isBooleanField(key) && !isDateField(key)">
                       <th *ngIf="key != 'id'">
                         <input type="text" class="inputItem2" [(ngModel)]="valoresInput[key]">
                       </th>
                     </ng-container>
-                    <ng-template #isObj>
+                    <ng-container *ngIf="isKeyWObjct(key,desplegableData)">
                       <th>
                         <select class="Selected" [(ngModel)]="valoresInput[key]">
                           <option disabled selected value="{{null}}">Seleccionar</option>
@@ -33,7 +33,32 @@
                           </ng-container>
                         </select>
                       </th>
-                    </ng-template>
+                    </ng-container>
+                    <ng-container *ngIf="isBooleanField(key)" >
+                      <th>
+                        <select class="Selected" [(ngModel)]="valoresInput[key]">
+                          <option disabled selected value="0"></option>
+                          <option value="1">Sí</option>
+                          <option value="0">No</option>
+                        </select>
+                      </th>
+                   </ng-container>
+                   <ng-container *ngIf="isDateField(key)" >
+                    <th>
+                      <div class="d-flex">
+                        <input
+                          class="inputItem2"
+                          placeholder="dd-mm-yyyy"
+                          name="d2"
+                          #c2="ngModel"
+                          ngbDatepicker
+                          #d2="ngbDatepicker"
+                          [(ngModel)]="valoresInput[key]"
+                        />
+                        <button class="btn btn-calendario btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()"></button>
+                      </div>
+                    </th>
+                 </ng-container>
                  </ng-container>
               </tr>
             </tbody>
@@ -73,7 +98,7 @@
               <tr *ngFor="let item of items ">
                 <th (click)="deleteData(item.id)" style="width: 0;"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
                 <ng-container *ngFor="let key of keys ; index as j">
-                   <ng-container *ngIf="!isKeyWObjct(key,desplegableData) else obj">
+                   <ng-container *ngIf="!isKeyWObjct(key,desplegableData) && !isBooleanField(key) && !isDateField(key)">
                     <th *ngIf="key == 'id'" style="display: none;">
                       <input type="text" class="inputItem1" value="{{item[key]}}">
                     </th>
@@ -81,7 +106,7 @@
                       <input type="text" class="inputItem1" value="{{item[key]}}">
                     </th>
                    </ng-container>
-                   <ng-template #obj >
+                   <ng-container *ngIf="isKeyWObjct(key,desplegableData)" >
                       <th *ngIf="desplegableData[key]">
                         <select class="Selected1">
                           <option *ngIf="item[key] != null" disabled selected value="{{item[key].id}}">{{item[key].name}}</option>
@@ -91,10 +116,32 @@
                           </ng-container>
                         </select>
                       </th>
-                   </ng-template>
-                   <!-- <ng-container >
-                    <span>FECHA</span>
-                   </ng-container> -->
+                   </ng-container>
+                   <ng-container *ngIf="isBooleanField(key)" >
+                    <th>
+                      <select class="Selected1">
+                        <option *ngIf="item[key] == 1" disabled selected value="{{1}}">Sí</option>
+                        <option *ngIf="item[key] == 0" disabled selected value="{{0}}">No</option>
+                        <option value="{{1}}">Sí</option>
+                        <option value="{{0}}">No</option>
+                      </select>
+                    </th>
+                 </ng-container>
+                 <ng-container *ngIf="isDateField(key)" >
+                  <th>
+                    <div class="d-flex">
+                      <input
+				                    class="inputItem1"
+				                    placeholder="dd-mm-yyyy"
+				                    name="dp"
+                            value="{{item[key]}}"
+				                    ngbDatepicker
+				                    #d="ngbDatepicker"
+			                      />
+			                  <button class="btn btn-calendario btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+                    </div>
+                  </th>
+               </ng-container>
                 </ng-container>
               </tr>
             </tbody>

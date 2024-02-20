@@ -1,4 +1,8 @@
 export interface Response {
-    Data: any[];
-    Column: any[];
+    ref: string;
+    desplegables:any[];
+    isBoolean: string[];
+    isDate: string[];
+    data: any[];
+    column: any[];
 }

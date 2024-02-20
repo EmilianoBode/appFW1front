@@ -21,8 +21,10 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
 import { HttpClientModule } from  '@angular/common/http';
 import { SortByNumPipe } from './pipes/sort-by-num.pipe';
 import { TypeOfPipe } from './pipes/type-of.pipe';
-import { GeneralComponent } from './demo/home/general/general/general.component';
 import { ToastsContainer } from './toast-container.component';
+import { NgbDateAdapter, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { CustomAdapter } from './_services/date-picker.service';
+import { CustomDateParserFormatter } from './_services/CustomDateParserFormatter';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { ToastsContainer } from './toast-container.component';
     TypeOfPipe
   ],
   imports: [BrowserModule, AppRoutingModule, SharedModule, BrowserAnimationsModule,HttpClientModule,ToastsContainer],
-  providers: [NavigationItem],
+  providers: [NavigationItem,{ provide: NgbDateAdapter, useClass: CustomAdapter },
+		{ provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

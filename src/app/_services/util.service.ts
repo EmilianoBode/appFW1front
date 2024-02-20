@@ -14,8 +14,11 @@ export class UtilService {
   public data:any[];
   public column:any[];
   public ref: string;
-  public desp: string[];
+  public desp: any[];
   public ejecutar:string;
+  public isBoolean: string[];
+  public isDate: string[];
+
   private urlApi:string = environment.url;
 
   constructor(private http: HttpClient) {}

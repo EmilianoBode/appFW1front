@@ -1,3 +1,15 @@
-<app-data-tabular *ngIf="(utilService.data || utilService.column) && utilService.ref == null" [data]="utilService.data" [column]="utilService.column" />
-<app-edit *ngIf="(utilService.data || utilService.column) && utilService.ref != null" [data]="utilService.data" [column]="utilService.column" [ref]="utilService.ref" [desp]="utilService.desp" />
+<app-data-tabular *ngIf="(utilService.data || utilService.column) && utilService.ref == null" 
+                                                                                            [data]="utilService.data" 
+                                                                                            [column]="utilService.column" 
+/>
+
+<app-edit *ngIf="(utilService.data || utilService.column) && utilService.ref != null" 
+                                                                                    [data]="utilService.data" 
+                                                                                    [column]="utilService.column" 
+                                                                                    [ref]="utilService.ref" 
+                                                                                    [desp]="utilService.desp" 
+                                                                                    [isBoolean]="utilService.isBoolean"
+                                                                                    [isDate]="utilService.isDate"
+/>
+
 <app-home *ngIf="!utilService.data || !utilService.column"/>

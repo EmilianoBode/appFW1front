@@ -3,10 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'src/app/theme/shared/shared.module';
 import { ModalComponent } from 'src/app/componentes/modal/modal/modal.component';
 import { UtilService } from 'src/app/_services/util.service';
-import { menuService } from 'src/app/_services/menu.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { modalService } from 'src/app/_services/modal.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import _ from 'lodash';
 
 @Component({
@@ -21,6 +19,8 @@ export default class EditComponent implements OnInit, OnChanges {
   @Input() column: any[];
   @Input() ref: string;
   @Input() desp: string[];
+  @Input() isBoolean: string[];
+  @Input() isDate: string[];
   public dataFilter: any[] = [];
   private dataCopy: any;
   public desplegableData: any;
@@ -28,8 +28,8 @@ export default class EditComponent implements OnInit, OnChanges {
   public valoresInput: any = {};
   public inputBusqueda: string;
 
-  constructor(public utilService: UtilService, private modal:modalService, private modalService: NgbModal) { }
-
+  constructor(public utilService: UtilService, private modal:modalService) { }
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.dataFilter = structuredClone(this.data);
@@ -245,9 +245,15 @@ get keys(){
           else{
             newItem[key] = parseInt(inputValue);
           }
-        }else if(inputValue.trim() == '') {
+        }
+        // else if(this.isDateField(key)){
+        //   newItem[key] = this.setFechaInput(inputValue);
+
+        // }
+        else if(inputValue.trim() == '') {
           newItem[key] = null;
-        } else{
+        } 
+        else{
           newItem[key] = inputValue;
         }
         
@@ -259,5 +265,22 @@ get keys(){
 
   }
 
-}
+  isBooleanField(key:string):boolean{
+    if (!this.isBoolean) return false
 
+    if(this.isBoolean.find((b)=> b == key)){
+      return true;
+    }
+    return false;
+  }
+
+  isDateField(key:string):boolean{
+    if (!this.isDate) return false
+    
+    if(this.isDate.find((b)=> b == key)){
+      return true;
+    }
+    return false;
+  }
+
+}

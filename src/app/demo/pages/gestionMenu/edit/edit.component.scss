@@ -1,6 +1,7 @@
 .inputItem2{
     width: 100%;
     border: none;
+    height: 30px;
 }
 .btn-th{
     width: 0%;
@@ -8,14 +9,18 @@
 .inputItem1{
     width: 100%;
     border: none;
+    height: 30px;
     background: transparent;
+    size: 10;
     &:active,&:focus{
         background: #fff;
     }
 }
+
 .Selected,.Selected1{
     width: 100%;
     border: none;
+    height: 30px;
     &:hover,option:hover{
         cursor: pointer;
     }
@@ -24,8 +29,11 @@
     width: 50px;
     text-align: center;
 }
+.btn-calendario{
+    padding: 5px 8px;
+    border-radius: 0 4px 4px 0;
+}
 .btn{
-    min-width: 150px;
     height: 30px;
     // margin: auto;
     align-items: center;
