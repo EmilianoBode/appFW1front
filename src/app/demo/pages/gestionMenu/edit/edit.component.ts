@@ -21,7 +21,7 @@ export default class EditComponent implements OnInit, OnChanges {
   @Input() column: any[];
   @Input() ref: string;
   @Input() desp: string[];
-  private dataFilter: any[] = [];
+  public dataFilter: any[] = [];
   private dataCopy: any;
   public desplegableData: any;
   public menuList: any[];
@@ -32,6 +32,11 @@ export default class EditComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
+      this.dataFilter = structuredClone(this.data);
+      this.dataCopy = structuredClone(this.column[0]);
+      this.setDataType();
+    }
+    if (changes['dataFilter']) {
       this.dataFilter = structuredClone(this.data);
       this.dataCopy = structuredClone(this.column[0]);
       this.setDataType();
@@ -111,6 +116,9 @@ get keys(){
 
   getKeyWithObj() {
     let keyList: any[] = [];
+    
+    if(this.desp == null) return null;
+
     let item = structuredClone(this.desp)
     for (const it of item) {
       keyList.push(Object.keys(it)[0])
@@ -146,8 +154,6 @@ get keys(){
       }
     }
     
-
-    console.log(objSet)
     this.utilService.setTabular(this.utilService.ejecutar,objSet).subscribe(
       (res)=>{
         if(res.estado){

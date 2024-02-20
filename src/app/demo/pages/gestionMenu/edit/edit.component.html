@@ -72,8 +72,8 @@
             <tbody class="tbodyData"> 
               <tr *ngFor="let item of items ">
                 <th (click)="deleteData(item.id)" style="width: 0;"><i class="ti ti-trash btn btn-delete btn-outline-danger" ></i></th>
-                <ng-container *ngFor="let key of keysData ; index as j">
-                   <ng-container *ngIf="!isObject(item[key]) else obj">
+                <ng-container *ngFor="let key of keys ; index as j">
+                   <ng-container *ngIf="!isKeyWObjct(key,desplegableData) else obj">
                     <th *ngIf="key == 'id'" style="display: none;">
                       <input type="text" class="inputItem1" value="{{item[key]}}">
                     </th>
@@ -84,21 +84,25 @@
                    <ng-template #obj >
                       <th *ngIf="desplegableData[key]">
                         <select class="Selected1">
-                          <option disabled selected value="{{item[key].id}}">{{item[key].name}}</option>
+                          <option *ngIf="item[key] != null" disabled selected value="{{item[key].id}}">{{item[key].name}}</option>
+                          <option *ngIf="item[key] == null" disabled selected value="{{null}}"></option>
                           <ng-container *ngFor="let op of desplegableData[key]">
                             <option value="{{op.id}}">{{op.name}}</option>
                           </ng-container>
                         </select>
                       </th>
                    </ng-template>
+                   <!-- <ng-container >
+                    <span>FECHA</span>
+                   </ng-container> -->
                 </ng-container>
               </tr>
-              <ng-container *ngIf="!utilService.data[0]">
-                <span>*No se encontraron registros</span>
-              </ng-container>
             </tbody>
-
           </table>
+
+          <ng-container *ngIf="!dataFilter[0]">
+            <span class="no-reg">*No se encontraron registros</span>
+          </ng-container>
         </div>
       </div>
     </div>

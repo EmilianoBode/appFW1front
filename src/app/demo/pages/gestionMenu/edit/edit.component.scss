@@ -67,3 +67,15 @@
     overflow: hidden;
     
 }
+.no-reg{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+    color: #0000004f;
+    user-select: none;
+    pointer-events: none;
+    
+}
