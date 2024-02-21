@@ -236,7 +236,31 @@ export default class EditComponent implements OnInit, OnChanges {
       }
     )
 
-    console.log('diff: ', dataDiff)
+    for (const objSet of dataDiff) {
+      for (const key in objSet) {
+        let matchKey = this.paramsObligatorios.find((k) => k == key)
+  
+        if (this.valoresInput[key] == undefined && matchKey) {
+          return this.modal.open('Advertencia!', 'Completa todos los campos obligatorios * para continuar');
+  
+        }
+  
+        if (this.valoresInput[key] != undefined && this.valoresInput[key].trim() == '' && matchKey) {
+          this.valoresInput[key]= null;
+          return this.modal.open('Advertencia!', 'Completa todos los campos obligatorios * para continuar');
+  
+        }
+        if (this.valoresInput[key] != undefined) {
+         if (this.valoresInput[key].trim() === '') {
+          objSet[key] = null;
+          this.valoresInput[key]= null;
+         }
+         else{
+          objSet[key] = this.valoresInput[key];
+         }
+        }
+      }
+    }
 
     this.utilService.updateData(this.utilService.ejecutar, dataDiff).subscribe(
       (resp) => {

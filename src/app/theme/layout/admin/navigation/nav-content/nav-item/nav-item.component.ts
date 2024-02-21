@@ -51,11 +51,6 @@ export class NavItemComponent {
     }
   }
 
-  testingMock = [
-    "idProducto",
-    "fecha"
-  ]
-
   ejecutarMetodo(metodo: string, itemName: string): void {
     if (!metodo) return
 
