@@ -82,8 +82,8 @@ export default class EditMenuComponent implements OnInit {
     else if (typeof menuNuevo.padre != 'number' && menuNuevo.padre != null) {
       return this.modal.open('Aviso!', 'El campo "padre" debe contener numeros')
     }
-    else if (typeof menuNuevo.orden != 'number' || menuNuevo.orden == null || menuNuevo.orden == 0) {
-      return this.modal.open('Aviso!', 'El campo "orden" debe contener números y no puede ser 0')
+    else if (typeof menuNuevo.orden != 'number' || menuNuevo.orden == 0) {
+      menuNuevo.orden = null;
     }
 
     this.menuService.createMenu('tabular.menu', menuNuevo).subscribe(

@@ -11,7 +11,7 @@
                 <tr>
                     <ng-container *ngFor="let key of keysValues">
                       <th *ngIf="key != 'Id'">
-                        {{key}}
+                        {{key}} <span *ngIf="paramObligatorio(key)" class="paramObl">*</span>
                       </th>
                     </ng-container>
                   </tr>
@@ -51,11 +51,13 @@
                           placeholder="dd-mm-yyyy"
                           name="d2"
                           #c2="ngModel"
+                          size="6"
+                          maxlength="6"
                           ngbDatepicker
                           #d2="ngbDatepicker"
                           [(ngModel)]="valoresInput[key]"
                         />
-                        <button class="btn btn-calendario btn-outline-secondary bi bi-calendar3" (click)="d2.toggle()"></button>
+                        <button class="btn btn-secondary btn-calendario bi bi-calendar3" (click)="d2.toggle()"></button>
                       </div>
                     </th>
                  </ng-container>
@@ -89,7 +91,7 @@
                 <th></th>
                 <ng-container *ngFor="let key of keysValues">
                   <th *ngIf="key != 'Id'">
-                    {{key}}
+                    {{key}} <span *ngIf="paramObligatorio(key)" class="paramObl">*</span>
                   </th>
                 </ng-container>
               </tr>
@@ -131,14 +133,16 @@
                   <th>
                     <div class="d-flex">
                       <input
-				                    class="inputItem1"
+				                    class="inputItem1 inputFecha"
 				                    placeholder="dd-mm-yyyy"
 				                    name="dp"
+                            size="6"
+                            maxlength="6"
                             value="{{item[key]}}"
 				                    ngbDatepicker
 				                    #d="ngbDatepicker"
 			                      />
-			                  <button class="btn btn-calendario btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+			                  <button class="btn btn-calendario bi bi-calendar3" (click)="d.toggle()" type="button"></button>
                     </div>
                   </th>
                </ng-container>

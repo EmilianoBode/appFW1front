@@ -1,40 +1,46 @@
+$inputHeight: 30px;
+
 .inputItem2{
-    width: 100%;
     border: none;
-    height: 30px;
+    height: $inputHeight;
 }
 .btn-th{
     width: 0%;
 }
 .inputItem1{
-    width: 100%;
     border: none;
-    height: 30px;
+    height: $inputHeight;
     background: transparent;
-    size: 10;
     &:active,&:focus{
         background: #fff;
     }
 }
 
 .Selected,.Selected1{
-    width: 100%;
     border: none;
-    height: 30px;
+    height: $inputHeight;
     &:hover,option:hover{
         cursor: pointer;
     }
 }
 .idSel{
-    width: 50px;
+    width: 30px;
     text-align: center;
 }
 .btn-calendario{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 5px 8px;
     border-radius: 0 4px 4px 0;
+    // color: #673ab7;
+    // &:hover{
+    //     background: #673ab7;
+    //     color: #fff;
+    // }
 }
 .btn{
-    height: 30px;
+    height: $inputHeight;
     // margin: auto;
     align-items: center;
     justify-content: center;
@@ -46,6 +52,7 @@
     font-size: 15px;
     padding: 5px 15px;
 }
+
 .input-search{
     margin-left: 20px;
     display: flex;
@@ -71,8 +78,11 @@
     
 }
 .table{
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
+    border-color: rgba(0, 0, 0, 0.342);
     
 }
 .no-reg{
@@ -86,4 +96,8 @@
     user-select: none;
     pointer-events: none;
     
+}
+.paramObl{
+    font-weight: 600;
+    color: rgba(185, 42, 42, 0.822);
 }

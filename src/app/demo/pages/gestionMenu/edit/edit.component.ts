@@ -28,8 +28,14 @@ export default class EditComponent implements OnInit, OnChanges {
   public valoresInput: any = {};
   public inputBusqueda: string;
 
-  constructor(public utilService: UtilService, private modal:modalService) { }
-  
+  testingMock = [
+    "idProducto",
+    "fecha"
+  ]
+
+
+  constructor(public utilService: UtilService, private modal: modalService) { }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
       this.dataFilter = structuredClone(this.data);
@@ -84,9 +90,9 @@ export default class EditComponent implements OnInit, OnChanges {
   get keysValues() {
     return this.column && this.column.length > 0 ? Object.values(this.column[0]) : [];
   }
-get keys(){
-  return this.column && this.column.length > 0 ? Object.keys(this.column[0]) : [];
-}
+  get keys() {
+    return this.column && this.column.length > 0 ? Object.keys(this.column[0]) : [];
+  }
 
 
   get keysData() {
@@ -116,8 +122,8 @@ get keys(){
 
   getKeyWithObj() {
     let keyList: any[] = [];
-    
-    if(this.desp == null) return null;
+
+    if (this.desp == null) return null;
 
     let item = structuredClone(this.desp)
     for (const it of item) {
@@ -136,7 +142,7 @@ get keys(){
     return false;
   }
 
-  setDataType():void {
+  setDataType(): void {
 
     for (const key in this.column[0]) {
       this.dataCopy[key] = null;
@@ -146,14 +152,36 @@ get keys(){
 
   setData() {
 
-    let objSet = this.dataCopy;
+    let objSet = structuredClone(this.dataCopy);
 
     for (const key in objSet) {
+      let matchKey = this.testingMock.find((k) => k == key)
+
+      if (this.valoresInput[key] == undefined && matchKey) {
+        return this.modal.open('Advertencia!', 'Completa todos los campos obligatorios * para continuar');
+
+      }
+
+      if (this.valoresInput[key] != undefined && this.valoresInput[key].trim() == '' && matchKey) {
+        this.valoresInput[key]= null;
+        return this.modal.open('Advertencia!', 'Completa todos los campos obligatorios * para continuar');
+
+      }
       if (this.valoresInput[key] != undefined) {
-        objSet[key] = this.valoresInput[key].trim();
+       if (this.valoresInput[key].trim() === '') {
+        objSet[key] = null;
+        this.valoresInput[key]= null;
+       }
+       else{
+        objSet[key] = this.valoresInput[key];
+       }
       }
     }
-    
+
+    console.log(objSet);
+
+
+
     this.utilService.setTabular(this.utilService.ejecutar,objSet).subscribe(
       (res)=>{
         if(res.estado){
@@ -173,90 +201,87 @@ get keys(){
     )
   }
 
-  async deleteData(id:number){
+  async deleteData(id: number) {
 
     if (confirm('Seguro que desea eliminar este registro?')) {
-      this.utilService.deleteTabular(this.utilService.ejecutar+'.'+id).subscribe(
-        (res)=>{
+      this.utilService.deleteTabular(this.utilService.ejecutar + '.' + id).subscribe(
+        (res) => {
           if (res.estado) {
-            this.modal.open('Eliminado',res.respuesta);
-            this.dataFilter = this.dataFilter.filter((f)=> f.id != id);
+            this.modal.open('Eliminado', res.respuesta);
+            this.dataFilter = this.dataFilter.filter((f) => f.id != id);
           } else {
-            this.modal.open('Aviso!',res.respuesta);
+            this.modal.open('Aviso!', res.respuesta);
           }
         },
-        (err:HttpErrorResponse)=>{
-          this.modal.open(err.status.toString(),err.statusText);
+        (err: HttpErrorResponse) => {
+          this.modal.open(err.status.toString(), err.statusText);
         }
       )
     }
   }
 
-  updateData(){
-    let dataOrigin = structuredClone(this.dataFilter)
-    let dataChangue = this.extractValues();
+  updateData() {
 
-    if (_.isEqual(dataOrigin,dataChangue)) {
-      return this.modal.open('Atención!','No hay datos que actualizar!')
+    let dataChangue: any[] = this.extractValues();
+    let dataOrigin: any[] = this.extractValuesOrigin();
+
+
+    console.log('Actualizando datos...');
+
+    if (_.isEqual(dataOrigin, dataChangue)) {
+      console.log('NADA QUE ACTUALIZAR');
+      return this.modal.open('Atención!', 'No hay datos que actualizar!')
     }
 
     let dataDiff = dataChangue.filter(
-      (changue) =>{
+      (changue) => {
         const dataFind = dataOrigin.find(origin => origin.id == changue.id)
         return !_.isEqual(changue, dataFind)
       }
     )
 
-    this.utilService.updateData(this.utilService.ejecutar,dataDiff).subscribe(
-      (resp)=>{
-        if(resp.estado){
-          this.modal.open('Éxito!',resp.respuesta)
+    console.log('diff: ', dataDiff)
+
+    this.utilService.updateData(this.utilService.ejecutar, dataDiff).subscribe(
+      (resp) => {
+        if (resp.estado) {
+          this.modal.open('Éxito!', resp.respuesta)
           this.utilService.reloadData(this.utilService.ejecutar).then(data => this.dataFilter = data)
+          console.log('ACTUALIZADO EXITOSO!');
         }
-        else{
-          this.modal.open('Atención!',resp.respuesta)
+        else {
+          this.modal.open('Atención!', resp.respuesta)
         }
       },
-      (err:HttpErrorResponse)=>{
-        this.modal.open('Error '+err.status.toString(),err.statusText);
+      (err: HttpErrorResponse) => {
+        this.modal.open('Error ' + err.status.toString(), err.statusText);
       }
     )
   }
 
-  extractValues():any[]{
+  extractValues(): any[] {
     let newArray: any[] = [];
 
     const objRow = document.querySelectorAll('.tbodyData tr');
 
     objRow.forEach(row => {
-      let newItem :any  = {};
+      let newItem: any = {};
       let input = row.querySelectorAll('.inputItem1, .Selected1');
 
       input.forEach((input, i) => {
         const key = this.keysData[i];
         const inputValue = (input as HTMLInputElement).value.trim();
 
-        if (!isNaN(parseInt(inputValue)) && inputValue.length < 3) {
-          
-          if (this.desplegableData[key]) {
-            let objArray= this.desplegableData[key].filter(d=>d.id == parseInt(inputValue));
-            newItem[key] = objArray[0];
-          }
-          else{
-            newItem[key] = parseInt(inputValue);
-          }
-        }
-        // else if(this.isDateField(key)){
-        //   newItem[key] = this.setFechaInput(inputValue);
-
+        // if (!isNaN(parseInt(inputValue)) && inputValue.length < 3) {
+        //   newItem[key] = parseInt(inputValue);
         // }
-        else if(inputValue.trim() == '') {
+        if (inputValue.trim() == '') {
           newItem[key] = null;
-        } 
-        else{
+        }
+        else {
           newItem[key] = inputValue;
         }
-        
+
       });
       newArray.push(newItem)
     });
@@ -265,19 +290,61 @@ get keys(){
 
   }
 
-  isBooleanField(key:string):boolean{
+  extractValuesOrigin() {
+    let dataOriginal: any[] = structuredClone(this.dataFilter)
+    let dataResult: any[] = [];
+    for (const item of dataOriginal) {
+      let obj: any = {};
+      for (const key in item) {
+
+        if (this.isObject(item[key])) {
+          obj[key] = item[key].id.toString();
+        }
+        else if (item[key] != null) {
+          obj[key] = item[key].toString();
+        }
+        else {
+          obj[key] = item[key];
+        }
+      }
+      dataResult.push(obj);
+    }
+    return dataResult;
+  }
+
+  isBooleanField(key: string): boolean {
     if (!this.isBoolean) return false
 
-    if(this.isBoolean.find((b)=> b == key)){
+    if (this.isBoolean.find((b) => b == key)) {
       return true;
     }
     return false;
   }
 
-  isDateField(key:string):boolean{
+  isDateField(key: string): boolean {
     if (!this.isDate) return false
-    
-    if(this.isDate.find((b)=> b == key)){
+
+    if (this.isDate.find((b) => b == key)) {
+      return true;
+    }
+    return false;
+  }
+
+  paramObligatorio(value: any) {
+
+    let keysArr = this.testingMock;
+    if (!keysArr) return false
+
+    let valuesArr: any[] = [];
+    let columna = this.column[0]
+
+    for (const key in columna) {
+      if (keysArr.find((k) => k == key)) {
+        valuesArr.push(columna[key])
+      }
+    }
+
+    if (valuesArr.find((b) => b == value)) {
       return true;
     }
     return false;
