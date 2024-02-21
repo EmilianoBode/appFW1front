@@ -21,17 +21,13 @@ export default class EditComponent implements OnInit, OnChanges {
   @Input() desp: string[];
   @Input() isBoolean: string[];
   @Input() isDate: string[];
+  @Input() paramsObligatorios: string[];
   public dataFilter: any[] = [];
   private dataCopy: any;
   public desplegableData: any;
   public menuList: any[];
   public valoresInput: any = {};
   public inputBusqueda: string;
-
-  testingMock = [
-    "idProducto",
-    "fecha"
-  ]
 
 
   constructor(public utilService: UtilService, private modal: modalService) { }
@@ -155,7 +151,7 @@ export default class EditComponent implements OnInit, OnChanges {
     let objSet = structuredClone(this.dataCopy);
 
     for (const key in objSet) {
-      let matchKey = this.testingMock.find((k) => k == key)
+      let matchKey = this.paramsObligatorios.find((k) => k == key)
 
       if (this.valoresInput[key] == undefined && matchKey) {
         return this.modal.open('Advertencia!', 'Completa todos los campos obligatorios * para continuar');
@@ -332,7 +328,7 @@ export default class EditComponent implements OnInit, OnChanges {
 
   paramObligatorio(value: any) {
 
-    let keysArr = this.testingMock;
+    let keysArr = this.paramsObligatorios;
     if (!keysArr) return false
 
     let valuesArr: any[] = [];

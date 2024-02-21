@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment.prod';
 })
 export class UtilService {
 
+  private urlApi:string = environment.url;
+  
   public menuTitulo: string;
   public Menu: MenuDTO;
   public tabular: any[];
@@ -18,8 +20,8 @@ export class UtilService {
   public ejecutar:string;
   public isBoolean: string[];
   public isDate: string[];
+  public paramsObligatorios: string[];
 
-  private urlApi:string = environment.url;
 
   constructor(private http: HttpClient) {}
 

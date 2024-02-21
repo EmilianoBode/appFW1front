@@ -51,6 +51,11 @@ export class NavItemComponent {
     }
   }
 
+  testingMock = [
+    "idProducto",
+    "fecha"
+  ]
+
   ejecutarMetodo(metodo: string, itemName: string): void {
     if (!metodo) return
 
@@ -68,6 +73,7 @@ export class NavItemComponent {
         this.utilService.desp = item.desplegables;
         this.utilService.isBoolean = item.isBoolean;
         this.utilService.isDate = item.isDate
+        this.utilService.paramsObligatorios = item.paramsObligatorios;
       }
     })
 

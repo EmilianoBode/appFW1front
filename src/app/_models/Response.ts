@@ -3,6 +3,7 @@ export interface Response {
     desplegables:any[];
     isBoolean: string[];
     isDate: string[];
+    paramsObligatorios: string[];
     data: any[];
     column: any[];
 }
