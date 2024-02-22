@@ -240,23 +240,23 @@ export default class EditComponent implements OnInit, OnChanges {
       for (const key in objSet) {
         let matchKey = this.paramsObligatorios.find((k) => k == key)
   
-        if (this.valoresInput[key] == undefined && matchKey) {
+        if (objSet[key] == undefined && matchKey) {
           return this.modal.open('Advertencia!', 'Completa todos los campos obligatorios * para continuar');
   
         }
   
-        if (this.valoresInput[key] != undefined && this.valoresInput[key].trim() == '' && matchKey) {
-          this.valoresInput[key]= null;
+        if (objSet[key] != undefined && objSet[key].trim() == '' && matchKey) {
+          objSet[key]= null;
           return this.modal.open('Advertencia!', 'Completa todos los campos obligatorios * para continuar');
   
         }
         if (this.valoresInput[key] != undefined) {
-         if (this.valoresInput[key].trim() === '') {
+         if (objSet[key].trim() === '') {
           objSet[key] = null;
-          this.valoresInput[key]= null;
+          objSet[key]= null;
          }
          else{
-          objSet[key] = this.valoresInput[key];
+          objSet[key] = objSet[key];
          }
         }
       }
